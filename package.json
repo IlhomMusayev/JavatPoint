@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "sequelize": "^6.12.5"
+  },
+  "name": "javatpoint",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IlhomMusayev/JavatPoint.git"
+  },
+  "author": "IlhomMusayev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IlhomMusayev/JavatPoint/issues"
+  },
+  "homepage": "https://github.com/IlhomMusayev/JavatPoint#readme",
+  "description": ""
+}

@@ -9,7 +9,6 @@ module.exports = class Validations {
 				language_name: joi
 					.string()
 					.required()
-					.min(5)
 					.max(64)
 					.error(new Error(400, "Name is invalid")),
 				status: joi
@@ -17,6 +16,23 @@ module.exports = class Validations {
 					.required()
 					.valid("active", "recording", "deleted")
 					.error(new Error(400, "This option isn't available")),
+			})
+			.validateAsync(data);
+	}
+    
+    static async SubjectValidation(data, Error) {
+		return await joi
+			.object({
+				subject_name: joi
+					.string()
+					.required()
+					.max(64)
+					.error(new Error(400, "Name is invalid")),
+				language_id: joi
+					.string()
+                    .guid()
+					.required()
+					.error(new Error(400, "Language id is invalid")),
 			})
 			.validateAsync(data);
 	}

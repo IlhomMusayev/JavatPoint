@@ -27,6 +27,8 @@ async function start() {
         
         app.use(cookieParser());
         app.use(customErrorMiddleware);
+        app.use(userMiddleware)
+
 
         app.set("view engine", "ejs");
         app.set("views", path.join(__dirname, "views"));

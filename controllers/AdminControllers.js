@@ -1,7 +1,7 @@
 const { compareHash } = require('../modules/bcript')
 const { genereteToken } = require('../modules/jwt')
 
-const { LanguageValidation } = require('../modules/validation')
+const { LanguageValidation , SubjectValidation} = require('../modules/validation')
 
 module.exports = class AdminController {
     static async DashboardController(req, res) {
@@ -60,17 +60,41 @@ module.exports = class AdminController {
 
     }
 
-    static async LanguagesController(req, res) {
-        res.render('languages', {
-        })
+    static async LanguagesController(req, res, next) {
+        try {
+            const limit = req.query.limit || 15;
+			const offset = req.query.offset - 1 || 0;
+
+			const languages = await req.db.language.findAll({
+				raw: true,
+				// limit,
+				// offset: offset * limit,
+			});
+            console.log(languages);
+            res.render('languages', {
+                languages
+            })
+        } catch (error) {
+            next(error)
+        }
     }
     static async LanguagesPostController(req, res, next) {
         try {
             console.log(req.body);
             const data = await LanguageValidation(req.body, res.error)
 
+            const language = await req.db.language.create({
+                language_name: data.language_name,
+                language_status: data.status
+            }) 
+            res.status(201).json({
+				ok: true,
+				message: "Language created successfully",
+                data: {
+                    language
+                }
+			});
         } catch (error) {
-            // console.log(error);
            next(error)
         }
 
@@ -78,8 +102,37 @@ module.exports = class AdminController {
 
 
     static async SubjectController(req, res) {
+        const languages = await req.db.language.findAll({
+            raw: true,
+        });
+        const subjects = await req.db.subject.findAll({
+            raw: true,
+        });
         res.render('subject', {
+            languages,
+            subjects
         })
+    }
+
+    static async SubjectPostController(req, res) {
+        try {
+            console.log(req.body);
+            const data = await SubjectValidation(req.body, res.error)
+
+            const language = await req.db.language.create({
+                language_name: data.language_name,
+                language_status: data.status
+            }) 
+            res.status(201).json({
+				ok: true,
+				message: "Language created successfully",
+                data: {
+                    language
+                }
+			});
+        } catch (error) {
+           next(error)
+        }
     }
 
     static async TutorialsController(req, res) {

@@ -1,0 +1,59 @@
+@import "colors";
+@import "navbar";
+@import "header";
+@import "sidebar";
+@import "footer";
+@import "languages";
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body{
+  font-family: 'Source Sans Pro', sans-serif;
+  // background-color: #181818;
+
+}
+.container{
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(196, 195, 195); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #adadad; 
+  }
+
+  .note-modal-backdrop{
+    z-index: 2;
+    display: none!important;
+  }
+
+  .note-modal-content{
+    z-index: 9999;
+  }
+  #summernote{
+    background-color: #f2f2f2;
+  }

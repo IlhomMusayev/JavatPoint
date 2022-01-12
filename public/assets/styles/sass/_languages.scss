@@ -1,0 +1,25 @@
+.languages{
+    
+    &__item{
+        background-color: #fff;
+        margin-top: 50px;
+        text-align: center;
+        padding: 20px 0;
+        border-radius: 8px;
+        .svg-inline--fa{
+            width: 100px;
+            height: 100px;
+        }
+        .title{
+
+        }
+        .btn{
+            padding: 10px 40px;
+            border-radius: 30px;
+            border: none;
+            background-color: $main-color;
+            color: #fff;
+            margin-top: 10px;
+        }
+    }
+}

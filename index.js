@@ -5,6 +5,9 @@ const ejs = require('ejs');
 const path = require('path');
 require('dotenv').config()
 const cookieParser = require('cookie-parser');
+const userMiddleware = require('./middlewares/userMiddleware')
+const customErrorMiddleware = require('./middlewares/customErrorMiddleware')
+
 
 const app = express();
 const PORT = process.env.PORT
@@ -21,8 +24,10 @@ async function start() {
             req.db = await db;
             next();
         });
-
+        
         app.use(cookieParser());
+        app.use(customErrorMiddleware);
+
         app.set("view engine", "ejs");
         app.set("views", path.join(__dirname, "views"));
 

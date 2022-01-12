@@ -1,15 +1,21 @@
+const { compareHash } = require('../modules/bcript')
+const { genereteToken } = require('../modules/jwt')
+
+const { LanguageValidation } = require('../modules/validation')
+
 module.exports = class AdminController {
     static async DashboardController(req, res) {
         res.render('admin', {
         })
     }
 
-    static async LoginController(req, res) {
+    static async LoginGetController(req, res) {
         res.render('login', {
         })
     }
 
     static async LoginPostController(req, res) {
+        console.log(req.body);
         const {
             user_email,
             password
@@ -21,6 +27,7 @@ module.exports = class AdminController {
             },
             raw: true,
         });
+
         if (!user) {
             res.render('login', {
                 errorStatus: true,
@@ -49,7 +56,7 @@ module.exports = class AdminController {
             return;
         }
         
-        res.cookie('token', token).redirect('/')
+        res.cookie('token', token).redirect('/admin')
 
     }
 
@@ -57,6 +64,18 @@ module.exports = class AdminController {
         res.render('languages', {
         })
     }
+    static async LanguagesPostController(req, res, next) {
+        try {
+            console.log(req.body);
+            const data = await LanguageValidation(req.body, res.error)
+
+        } catch (error) {
+            // console.log(error);
+           next(error)
+        }
+
+    }
+
 
     static async SubjectController(req, res) {
         res.render('subject', {

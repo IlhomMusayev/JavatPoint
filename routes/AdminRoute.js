@@ -1,10 +1,13 @@
 const router = require("express").Router()
-const { DashboardController, LoginController, LanguagesController, SubjectController, TutorialsController } = require("../controllers/AdminControllers")
+const { DashboardController, LoginGetController, LoginPostController, LanguagesController, LanguagesPostController, SubjectController, TutorialsController } = require("../controllers/AdminControllers")
+const AuthMiddleware = require("../middlewares/authMiddleware")
 
-router.get('/',  DashboardController) 
-router.get('/login',  LoginController) 
-router.get('/languages',  LanguagesController) 
-router.get('/subject',  SubjectController) 
-router.get('/tutorials',  TutorialsController) 
+router.get('/login', LoginGetController) 
+router.post('/login', LoginPostController) 
+router.get('/', AuthMiddleware, DashboardController) 
+router.get('/languages', AuthMiddleware, LanguagesController) 
+router.post('/languages', AuthMiddleware, LanguagesPostController) 
+router.get('/subject', AuthMiddleware, SubjectController) 
+router.get('/tutorials', AuthMiddleware, TutorialsController) 
 
 module.exports = router

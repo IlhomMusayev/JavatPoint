@@ -23,10 +23,16 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
       defer
     ></script>
+    <link rel="stylesheet" href="/assets/scrypts/fontawesome-free-5.15.4-web/css/all.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer=""></script>
+
     <script src="/assets/scrypts/js/charts-lines.js" defer></script>
     <script src="/assets/scrypts/js/charts-pie.js" defer></script>
   </head>
   <body>
+
+    <% var error = error %> 
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': isSideMenuOpen }"
@@ -218,7 +224,7 @@
             <button
               class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
-              Create account
+              Logout
               <span class="ml-2" aria-hidden="true">+</span>
             </button>
           </div>
@@ -390,12 +396,12 @@
             <h2
             class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
           >
-            Languages
+            Til qo'shish
           </h2>
 
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
-            Languages
+            Til qo'shish
           </h2>
             <button @click="openModal" class="flex justify-between items-center rounded-full px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -437,7 +443,7 @@
                         </td>
                         <td class="px-4 py-3">
                           <div class="flex items-center space-x-4 text-sm">
-                            <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+                            <button @click="openModal" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
                               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                               </svg>
@@ -601,10 +607,44 @@
                 </p>
                 <!-- Modal description -->
                 <main>
-                    <form action="#">
+                    <form action="/admin/languages" method="post">
+                      <div class="max-w-4xl mx-auto mb-5">
+                        <% if(error) {%> 
+                        <div class="rounded-md bg-red-50 p-4">
+                          <div class="flex">
+                            <div class="flex-shrink-0">
+                              <svg class="h-5 w-5 text-red-400" x-description="Heroicon name: solid/x-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                              </svg>
+                            </div>
+                            <div class="ml-3">
+                              <h3 class="text-sm font-medium text-red-800">
+                                <%= error %>
+                              </h3>
+                            </div>
+                          </div>
+                        </div>
+                        <% } else {%> 
+        
+                        <!-- <div class="rounded-md bg-green-50 p-4">
+                          <div class="flex">
+                            <div class="flex-shrink-0">
+                              <svg class="h-5 w-5 text-green-400" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                              </svg>
+                            </div>
+                            <div class="ml-3">
+                              <p class="text-sm font-medium text-green-800">
+                                Successfully login
+                              </p>
+                            </div>
+                          </div>
+                        </div> -->
+                        <% } %> 
+                      </div>
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Dasturlash tilining nomi:</span>
-                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="JavaScript">
+                            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" name="language_name" placeholder="JavaScript">
                         </label>
                         <div class="mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">
@@ -612,15 +652,15 @@
                             </span>
                             <div class="mt-2">
                               <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-                                <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="personal">
+                                <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="status" value="active">
                                 <span class="ml-2">Active</span>
                               </label>
                               <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                                <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="busines">
+                                <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="status" value="recording">
                                 <span class="ml-2">Yaratilmoqda</span>
                               </label>
                               <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                                <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="busines">
+                                <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="status" value="deleted">
                                 <span class="ml-2">O'chirilgan</span>
                               </label>
                             </div>

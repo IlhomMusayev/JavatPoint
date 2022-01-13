@@ -270,7 +270,7 @@
                     <div class="flex flex-col h-0 flex-1 bg-zinc-800">
                         <div class="flex-1 flex flex-col overflow-y-auto">
                             <nav class="mt-5 flex-1 px-2 bg-zinc-800 space-y-1">
-
+                                <% subjects.forEach(function(subject) {%> 
                                 <div x-data="{ isExpanded: true }" class="space-y-1">
                                     <button
                                         class="text-gray-300 hover:bg-zinc-900 bg-zinc-900 hover:text-white group w-full flex items-center pr-2 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -282,18 +282,21 @@
                                             viewBox="0 0 20 20" aria-hidden="true">
                                             <path d="M6 6L14 10L6 14V6Z" fill="currentColor"></path>
                                         </svg>
+                                        <%= subject.subject_name %> 
                                     </button>
                                     <div x-show="isExpanded"
                                         x-description="Expandable link section, show/hide based on state."
                                         class="space-y-1">
-
-                                        <a href="#"
+                                        <% subject.tutorials.forEach(tutorial => { %> 
+                                        <a href="/<%= subject.language.dataValues.language_slug %>/<%= tutorial.tutorial_slug  %>
+                                            "
                                             class="group w-full flex items-center pl-10 pr-2 py-2 text-sm font-medium text-gray-300 rounded-md hover:text-white hover:bg-zinc-900">
-                                            Overview
+                                            <%= tutorial.tutorial_name  %> 
                                         </a>
-
+                                        <% }) %> 
                                     </div>
                                 </div>
+                                <% }) %> 
                             </nav>
                         </div>
                         <div class="flex-shrink-0 flex bg-gray-700 p-4">
@@ -319,8 +322,11 @@
                     x-init="$el.focus()">
                     <div class="pt-6">
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <h1 class="text-2xl font-semibold text-gray-900">Html Css</h1>
+                            <h1 class="text-2xl font-semibold text-gray-900"><%= tutirials[0].tutorial_name %></h1>
                         </div>
+
+                        <%- tutirials[0].tutorial_content %>
+
                         <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 
                     <!-- Footer -->

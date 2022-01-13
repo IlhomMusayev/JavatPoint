@@ -7,25 +7,36 @@ module.exports = class TutorialController {
                 raw: true,
                 where:{
                     language_slug: language_slug
-                }
+                },
             })
 
 
             const subjects = await req.db.subject.findAll({
-                raw: true,
                 where: {
                     language_id: language_id.language_id
-                }
+                },
+                include: [
+                    {
+                        model: req.db.language
+                    },
+                    {
+                        model: req.db.tutorial
+                    }
+                ]
             })
 
-            const tutorials
+            // <% tutorial.language.dataValues.forEach(language => {%> <%=language.language_slug%>  <% }) %>
 
+            const data = []
 
-
-            console.log(subjects);
-
+            subjects.forEach(subject => {
+                data.push(subject.dataValues)
+            })
+            data.forEach(item => {
+                console.log(item.language.dataValues);
+            })
             res.render('tutorial', {
-                subjects   
+                subjects: data
             })
        } catch (error) {
            next(error)

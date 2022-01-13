@@ -54,7 +54,7 @@ module.exports = class TutorialController {
                 data2.push(tutorial.dataValues)
             })
 
-          
+            
 
             res.render('tutorial', {
                 tutirials: data2,
@@ -110,7 +110,7 @@ module.exports = class TutorialController {
                 data2.push(tutorial.dataValues)
             })
 
-            console.log(data1);
+            console.log(data2);
 
             res.render('tutorial', {
                 tutirials: data2,

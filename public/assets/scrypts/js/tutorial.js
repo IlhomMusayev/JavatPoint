@@ -25,7 +25,6 @@ const tutorialFormElement = document.querySelector('.tutorial__form')
 
 tutorialFormElement.addEventListener('submit', async (e) => {
     e.preventDefault()
-
     const option = {
         method: 'POST',
         headers: {
@@ -34,11 +33,11 @@ tutorialFormElement.addEventListener('submit', async (e) => {
         body: JSON.stringify({
             tutorial_name: tutorialFormElement.tutorial_name.value,
             language_id: tutorialFormElement.language_id.value,
-            tutorial_content: tutorialFormElement.tutorial_content.value,
+            tutorial_content: tinyMCE.activeEditor.getContent(),
             subject_id: tutorialFormElement.subject_id.value
         })
     }
-
+    
     let response = await fetch('/admin/tutorials', option)
     response = await response.json();
 

@@ -15,7 +15,7 @@ module.exports = async (sequelize, Sequelize) => {
 			allowNull: false,
 		},
         tutorial_content: {
-			type: Sequelize.TEXT(),
+			type: Sequelize.STRING(),
 			allowNull: false,
 		}
 	});

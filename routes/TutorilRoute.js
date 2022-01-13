@@ -1,6 +1,7 @@
 const router = require("express").Router()
-const { TutorialGetController } = require("../controllers/TutorialControllers")
+const { TutorialGetController, TutorialBySubjectController } = require("../controllers/TutorialControllers")
 
-router.get('/:language_slug',  TutorialGetController) 
+router.get('/:language_slug',  TutorialBySubjectController) 
+router.get('/:language_slug/:subject_slug',  TutorialGetController) 
 
 module.exports = router

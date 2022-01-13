@@ -196,40 +196,20 @@
         </div>
     </header>
     <!-- End Header -->
-
+    <% var languages = languages || [] %> 
     <!-- Main -->
     <main>
         <div class="container">
             <div class="languages lg:grid lg:grid-rows-2 grid-flow-col gap-10" id="tutorials">
+                <% languages.forEach(language => { %> 
                 <div class="languages__item ">
                     <i class="fab fa-html5"></i>
-                    <h4 class="title">HTML</h4>
-                    <button class="btn">
+                    <h4 class="title"><%= language.language_name %></h4>
+                    <a href = "/<%= language.language_slug %>" class="btn">
                         Batafsil
-                    </button>
+                    </a>
                 </div>
-                <div class="languages__item">
-                    <i class="fab fa-css3"></i>
-                    <h4 class="title">CSS</h4>
-                    <button class="btn">
-                        Batafsil
-                    </button>
-                </div>
-                <div class="languages__item basis-1/2 lg:basis-1/2">
-                    <i class="fab fa-js"></i>
-                    <h4 class="title">JavaScript</h4>
-                    <button class="btn">
-                        Batafsil
-                    </button>
-                </div>
-                <div class="languages__item basis-1/2 lg:basis-1/2">
-                    <i class="fab fa-node"></i>
-                    <h4 class="title">Nodejs</h4>
-                    <button class="btn">
-                        Batafsil
-                    </button>
-                    <code></code>
-                </div>
+                <% }) %> 
             </div>
         </div>
     </main>

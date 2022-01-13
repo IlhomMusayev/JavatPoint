@@ -6,6 +6,10 @@ module.exports = async (sequelize, Sequelize) => {
 			primaryKey: true,
 			allowNull: false,
 		},
+		subject_slug: {
+			type: Sequelize.STRING(),
+			allowNull: false,
+		},
 		subject_name: {
 			type: Sequelize.STRING(),
 			allowNull: false,

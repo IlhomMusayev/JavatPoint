@@ -37,4 +37,29 @@ module.exports = class Validations {
 			.validateAsync(data);
 	}
 
+	static async TutorialValidation(data, Error) {
+		return await joi
+			.object({
+				tutorial_name: joi
+					.string()
+					.required()
+					.max(64)
+					.error(new Error(400, "Tutorial name is invalid")),
+				language_id: joi
+					.string()
+                    .guid()
+					.required()
+					.error(new Error(400, "Language id is invalid")),
+				subject_id: joi
+					.string()
+                    .guid()
+					.required()
+					.error(new Error(400, "Subject id is invalid")),
+				tutorial_content: joi
+					.required()
+					.error(new Error(400, "Content text is invalid")),
+			})
+			.validateAsync(data);
+	}
+
 };

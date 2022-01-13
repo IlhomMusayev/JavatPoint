@@ -1,7 +1,8 @@
 const { compareHash } = require('../modules/bcript')
 const { genereteToken } = require('../modules/jwt')
+const slug = require('slug')
 
-const { LanguageValidation , SubjectValidation} = require('../modules/validation')
+const { LanguageValidation , SubjectValidation, TutorialValidation} = require('../modules/validation')
 
 module.exports = class AdminController {
     static async DashboardController(req, res) {
@@ -15,7 +16,6 @@ module.exports = class AdminController {
     }
 
     static async LoginPostController(req, res) {
-        console.log(req.body);
         const {
             user_email,
             password
@@ -84,6 +84,7 @@ module.exports = class AdminController {
 
             const language = await req.db.language.create({
                 language_name: data.language_name,
+                language_slug: slug(data.language_name),
                 language_status: data.status
             }) 
 
@@ -120,6 +121,7 @@ module.exports = class AdminController {
 
             const subject = await req.db.subject.create({
                 subject_name: data.subject_name,
+                subject_slug: slug(data.subject_name),
                 language_id: data.language_id
             }) 
 
@@ -141,16 +143,39 @@ module.exports = class AdminController {
         const subjects = await req.db.subject.findAll({
             raw: true,
         });
+        const tutorials = await req.db.tutorial.findAll({
+            raw: true,
+        });
         res.render('tutorials', {
             languages, 
-            subjects
+            subjects,
+            tutorials
         })
     }
 
     
-    static async TutorialsPostController(req, res) {
-        res.render('tutorials', {
-        })
+    static async TutorialsPostController(req, res, next) {
+        try {
+            const data = await TutorialValidation(req.body, res.error)
+
+            const tutorial = await req.db.tutorial.create({
+                tutorial_name: data.tutorial_name,
+                tutorial_slug: slug(data.tutorial_name),
+                tutorial_content: data.tutorial_content,
+                language_id: data.language_id,
+                subject_id: data.subject_id
+            }) 
+    
+            res.status(201).json({
+                ok: true,
+                message: "Tutorial created successfully",
+                data: {
+                    tutorial
+                }
+            });
+        } catch (error) {
+         next(error)   
+        }
     }
     
     static async TutorialsGetSubjectByLanguageController(req, res, next) {
@@ -166,7 +191,6 @@ module.exports = class AdminController {
                     }
                 ]
             })
-    
             res.json({
                 ok: true,
                 subject

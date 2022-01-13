@@ -8,7 +8,8 @@
     "joi": "^17.5.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
-    "sequelize": "^6.12.5"
+    "sequelize": "^6.12.5",
+    "slug": "^5.2.0"
   },
   "name": "javatpoint",
   "version": "1.0.0",

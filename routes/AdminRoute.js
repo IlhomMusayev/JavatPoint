@@ -11,6 +11,6 @@ router.get('/subject', AuthMiddleware, SubjectController)
 router.post('/subject', AuthMiddleware, SubjectPostController) 
 router.get('/tutorials', AuthMiddleware, TutorialsController) 
 router.post('/tutorials', AuthMiddleware, TutorialsPostController) 
-router.post('/tutorials/:language_id', AuthMiddleware, TutorialsGetSubjectByLanguageController) 
+router.get('/tutorials/:language_id', AuthMiddleware, TutorialsGetSubjectByLanguageController) 
 
 module.exports = router

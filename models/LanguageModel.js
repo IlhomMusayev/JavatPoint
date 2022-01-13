@@ -6,6 +6,10 @@ module.exports = async (sequelize, Sequelize) => {
 			primaryKey: true,
 			allowNull: false,
 		},
+		language_slug: {
+			type: Sequelize.STRING(),
+			allowNull: false,
+		},
 		language_name: {
 			type: Sequelize.STRING(),
 			allowNull: false,

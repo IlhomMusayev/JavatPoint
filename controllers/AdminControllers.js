@@ -80,13 +80,13 @@ module.exports = class AdminController {
     }
     static async LanguagesPostController(req, res, next) {
         try {
-            console.log(req.body);
             const data = await LanguageValidation(req.body, res.error)
 
             const language = await req.db.language.create({
                 language_name: data.language_name,
                 language_status: data.status
             }) 
+
             res.status(201).json({
 				ok: true,
 				message: "Language created successfully",
@@ -114,20 +114,19 @@ module.exports = class AdminController {
         })
     }
 
-    static async SubjectPostController(req, res) {
+    static async SubjectPostController(req, res, next) {
         try {
-            console.log(req.body);
             const data = await SubjectValidation(req.body, res.error)
 
-            const language = await req.db.language.create({
-                language_name: data.language_name,
-                language_status: data.status
+            const subject = await req.db.subject.create({
+                subject_name: data.subject_name,
+                language_id: data.language_id
             }) 
+
             res.status(201).json({
 				ok: true,
-				message: "Language created successfully",
                 data: {
-                    language
+                    subject
                 }
 			});
         } catch (error) {
@@ -136,7 +135,44 @@ module.exports = class AdminController {
     }
 
     static async TutorialsController(req, res) {
+        const languages = await req.db.language.findAll({
+            raw: true,
+        });
+        const subjects = await req.db.subject.findAll({
+            raw: true,
+        });
+        res.render('tutorials', {
+            languages, 
+            subjects
+        })
+    }
+
+    
+    static async TutorialsPostController(req, res) {
         res.render('tutorials', {
         })
+    }
+    
+    static async TutorialsGetSubjectByLanguageController(req, res, next) {
+        try {
+            const subject = await req.db.language.findAll({
+                raw: true,
+                where: {
+                    language_id: req.params.language_id,
+                },
+                include: [
+                    {
+                        model: req.db.subject
+                    }
+                ]
+            })
+    
+            res.json({
+                ok: true,
+                subject
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 }

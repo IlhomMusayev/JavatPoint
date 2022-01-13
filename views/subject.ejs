@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    <% var subjects = subjects || [] %>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
         <!-- Desktop sidebar -->
         <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
@@ -470,7 +471,10 @@
                             </p>
                             <!-- Modal description -->
                             <main>
-                                <form action="#">
+                                <form class="subject__form">
+                                    <div class="error max-w-4xl mx-auto mb-5">
+                    
+                                      </div>
                                     <label class="block text-sm">
                                         <span class="text-gray-700 dark:text-gray-400">Mavzu nomi:</span>
                                         <input
@@ -500,5 +504,7 @@
         </div>
     </div>
 </body>
+
+<script src="/assets/scrypts/js/subject.js"> </script>
 
 </html>

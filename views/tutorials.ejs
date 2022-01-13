@@ -11,8 +11,6 @@
   <script src="/assets/scrypts/js/init-alpine.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-  <script src="/assets/scrypts/js/charts-lines.js" defer></script>
-  <script src="/assets/scrypts/js/charts-pie.js" defer></script>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
   </script>
@@ -428,13 +426,21 @@
                       Dasturlash tilini tanlang:
                     </span>
                     <select
-                      class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                      <option>Html Tutorilas</option>
-                      <option>JavaScript</option>
-                      <option>Python</option>
-                      <option>Php</option>
+                      class="language__select block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="language">
+                      <% languages.forEach(language => { %> 
+                          <option value="<%= language.language_id %>"><%= language.language_name %> </option>
+                      <% }) %> 
                     </select>
                   </label>
+
+                  
+                  <label class="block mt-4 text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                      Dasturlash tilini mavzusini tanlang:
+                    </span>
+                    <select class="subject__select block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="subject_id">
+                    </select>
+                </label>
 
                   <!-- <div id="summernote"></div> -->
                   <label class="block mt-4 text-sm">
@@ -442,8 +448,9 @@
                       Darslik uchun mattni kiriting!:
                     </span>
                     <textarea name="myTextarea" id="myTextarea"></textarea>
-
                   </label>
+
+
 
                   <button
                     class="mt-6 px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">Mavzu
@@ -460,7 +467,7 @@
   <script src="https://cdn.tiny.cloud/1/ez4jtc020qfra5unsldb01re2erujz0qzk751qmzwmsfgf6p/tinymce/5/tinymce.min.js"
     referrerpolicy="origin"></script>
   <script src="/assets/scrypts/js/tinymce.js"></script>
-
+  <script src="/assets/scrypts/js/tutorial.js"></script>
 
 </body>
 

@@ -27,8 +27,8 @@ module.exports = async function postgres() {
 
 		await relations(db);
 		await init(db);	
-
-		await sequelize.sync({ force: false });
+		
+		await sequelize.sync({ force: false});
 
 		return db;
 	} catch (error) {

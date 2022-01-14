@@ -8,7 +8,12 @@ module.exports = async function (app) {
         app.use('/', HomeRoute)
         app.use('/admin', AdminRoute)
 		app.use('/', TutorialRoute)
+
+		app.use((req, res) => {
+			res.render("404", {
+			});
+		});
 	} finally {
 		app.use(errorHandler);
 	}
-};
+}

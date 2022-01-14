@@ -175,6 +175,7 @@ module.exports = class AdminController {
                 }
             });
         } catch (error) {
+            console.log(error);
          next(error)   
         }
     }

@@ -156,17 +156,6 @@ module.exports = class AdminController {
     
     static async TutorialsPostController(req, res, next) {
         try {
-            console.log("content" + req.body.tutorial_content);
-
-            tinymce.init({
-                selector: 'textarea',
-                language: 'sv',
-                language_url: '/js/sv.js',
-                plugins: 'myplugin',
-                external_plugins: {
-                  'myplugin': '/js/myplugin/plugin.min.js'
-                }
-            });
             
             const data = await TutorialValidation(req.body, res.error)
             

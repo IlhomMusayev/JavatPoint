@@ -10,23 +10,31 @@ module.exports = class TutorialController {
                 },
             })
 
-            if (language_id) {
+            console.log(language_id);
+
+            if (language_id === "null") {
+                console.log("salom");
+                res.render("404")
+                return;
+            }else{
+                const tutorials = await req.db.tutorial.findAll({
+                    raw: true,
+                    where: {
+                        language_id: language_id.language_id,
+                    },
+                    order: [['updatedAt', 'ASC']]
+                })
+
+                res.redirect(`/${language_slug}/${tutorials[0].tutorial_slug}`)
+            }
+            
+
+        } catch (error) {
+            if(error.message === "Cannot read property 'language_id' of null"){
                 res.render("404")
             }
-
-            const tutorials = await req.db.tutorial.findAll({
-                raw: true,
-                where: {
-                    language_id: language_id.language_id,
-                },
-                order: [['updatedAt', 'ASC']]
-            })
-
-            res.redirect(`/${language_slug}/${tutorials[0].tutorial_slug}`)
-        } catch (error) {
-            console.log(error);
             next(error)
-        }
+        }   
     }
 
     static async TutorialGetController(req, res, next) {
@@ -46,6 +54,7 @@ module.exports = class TutorialController {
             const tutorials = await req.db.tutorial.findAll({
                 where: {
                     tutorial_slug: tutorial_slug,
+                    language_id: language_id.language_id
                 }
             })
 
@@ -66,14 +75,11 @@ module.exports = class TutorialController {
                 ]
             })
 
-            // <% tutorial.language.dataValues.forEach(language => {%> <%=language.language_slug%>  <% }) %>
-
             const data1 = []
 
             subjects.forEach(subject => {
                 data1.push(subject.dataValues)
             })
-            // //  <% tutorial.language.dataValues.forEach(language => {%> <%=language.language_slug%>  <% }) %>
             const data2 = []
 
             tutorials.forEach(tutorial => {
@@ -86,7 +92,6 @@ module.exports = class TutorialController {
                 subjects: data1
             })
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }

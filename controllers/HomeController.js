@@ -4,7 +4,7 @@ module.exports = class HomeController {
             include: [
                 {
                     model: req.db.tutorial,
-                    order: [['updatedAt', 'DESC']]
+                    order: [['updatedAt', 'ASC']]
                 }
             ]
         });

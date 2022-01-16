@@ -12,7 +12,7 @@ module.exports = class TutorialController {
 
             console.log(language_id);
 
-            if (language_id === "null") {
+            if (!language_id) {
                 console.log("salom");
                 res.render("404")
                 return;
@@ -48,9 +48,11 @@ module.exports = class TutorialController {
                     language_slug: language_slug
                 },
             })
-            if (language_id.language_id ==="null") {
+            if (!language_id) {
                 res.render("404")
             }
+
+
             const tutorials = await req.db.tutorial.findAll({
                 where: {
                     tutorial_slug: tutorial_slug,
@@ -92,6 +94,7 @@ module.exports = class TutorialController {
                 subjects: data1
             })
         } catch (error) {
+            console.log(error);
             next(error)
         }
     }

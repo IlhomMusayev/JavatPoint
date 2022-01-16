@@ -13,4 +13,9 @@ router.get('/tutorials', AuthMiddleware, TutorialsController)
 router.post('/tutorials', AuthMiddleware, TutorialsPostController) 
 router.get('/tutorials/:language_id', AuthMiddleware, TutorialsGetSubjectByLanguageController) 
 
+router.get(function (req, res) {
+    res.render('404_admin')
+})
+
+
 module.exports = router

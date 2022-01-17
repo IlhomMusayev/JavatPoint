@@ -13,7 +13,6 @@ module.exports = class TutorialController {
             console.log(language_id);
 
             if (!language_id) {
-                console.log("salom");
                 res.render("404")
                 return;
             }else{

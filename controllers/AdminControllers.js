@@ -101,6 +101,42 @@ module.exports = class AdminController {
 
     }
 
+    static async LanguagesPutController(req, res, next) {
+        try {
+            const { language_name, status, language_id} = req.body
+
+
+
+
+            const language = await req.db.language.update(
+            {
+                language_name: language_name,
+                language_slug: slug(language_name),
+                language_status: status
+            },
+            {
+                where: { 
+                    language_id: language_id
+                }
+            })
+
+
+            res.status(200).json({
+                ok: true,
+                message: "Updated language successfully"
+            })
+            
+
+
+
+
+
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
 
     static async SubjectController(req, res) {
         const languages = await req.db.language.findAll({

@@ -59,3 +59,17 @@ editBtns.forEach(btn => {
 function closeEditModal(){
     modalElement.style.display = 'none'
 }
+
+
+
+const deleteModalElement = document.querySelector('.delete_modal')
+
+const deleteLanguageBtnElements = document.querySelectorAll('.delete_btn')
+
+deleteLanguageBtnElements.forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+        const languageInput = document.querySelector('.language_id_input_delete')
+        deleteModalElement.style.display = "block"
+        languageInput.value = btn.dataset.id
+    })
+})

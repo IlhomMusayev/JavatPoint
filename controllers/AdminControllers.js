@@ -70,7 +70,7 @@ module.exports = class AdminController {
 				// limit,
 				// offset: offset * limit,
 			});
-            console.log(languages);
+
             res.render('languages', {
                 languages
             })
@@ -105,9 +105,6 @@ module.exports = class AdminController {
         try {
             const { language_name, status, language_id} = req.body
 
-
-
-
             const language = await req.db.language.update(
             {
                 language_name: language_name,
@@ -126,13 +123,30 @@ module.exports = class AdminController {
                 message: "Updated language successfully"
             })
             
-
-
-
-
-
         } catch (error) {
-            console.log(error);
+            next(error)
+        }
+    }
+
+
+    static async LanguagesDeleteController(req, res, next) {
+        try {
+            const { language_id} = req.body
+
+            console.log(language_id);
+
+            const language = await req.db.language.destroy(
+            {
+                paranoid: true,
+                where: { 
+                    language_id: language_id
+                }
+            })
+
+            res.redirect('/admin/languages')
+            
+        } catch (error) {
+            
             next(error)
         }
     }
@@ -211,7 +225,7 @@ module.exports = class AdminController {
                 }
             });
         } catch (error) {
-            console.log(error);
+            
          next(error)   
         }
     }

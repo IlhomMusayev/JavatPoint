@@ -1,89 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="./assets/styles/bootstrap/bootstrap.css"> -->
-    <link rel="stylesheet" href="./assets/scrypts/fontawesome-free-5.15.4-web/css/all.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer=""></script>
-
-
-    <link rel="stylesheet" href="./assets/styles/sass/main.css">
-
-    <title>JavatPoint</title>
-</head>
-
-<body class="bg-zinc-900">
-    <!-- Navbar -->
-    <div class="bg-gray-100">
-
-        <nav x-data="{ open: false }" class="bg-zinc-800">
-            <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-                <div class="relative flex items-center justify-between h-16">
-                    <div class="flex items-center px-2 lg:px-0">
-                            <div class="flex-shrink-0">
-                                <h4 class="text-white bold">Logo</h4>
-                            </div>
-                            <div class="hidden lg:block lg:ml-6">
-                                <div class="flex space-x-4">
-                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                <a href="/"
-                                    class="bg-zinc-900 text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                                <a href="#tutorials"
-                                    class="text-gray-300 hover:bg-zinc-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tutorials</a>
-                                <a href="#"
-                                    class="text-gray-300 hover:bg-zinc-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex lg:hidden">
-                        <!-- Mobile menu button -->
-                        <button type="button"
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                            aria-controls="mobile-menu" @click="open = !open" aria-expanded="false"
-                            x-bind:aria-expanded="open.toString()">
-                            <span class="sr-only">Open main menu</span>
-                            <svg x-description="Icon when menu is closed.
-    
-    Heroicon name: outline/menu" x-state:on="Menu open" x-state:off="Menu closed" class="block h-6 w-6"
-                                :class="{ 'hidden': open, 'block': !(open) }" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16">
-                                </path>
-                            </svg>
-                            <svg x-description="Icon when menu is open.
-    
-    Heroicon name: outline/x" x-state:on="Menu open" x-state:off="Menu closed" class="hidden h-6 w-6"
-                                :class="{ 'block': open, 'hidden': !(open) }" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div x-description="Mobile menu, show/hide based on menu state." class="lg:hidden" id="mobile-menu"
-                x-show="open">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                    <a href="/"
-                        class="bg-zinc-900 text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                    <a href="#tutorials"
-                        class="text-gray-300 hover:bg-zinc-900 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Tutorials</a>
-                    <a href="#"
-                        class="text-gray-300 hover:bg-zinc-900 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-                </div>
-
-            </div>
-        </nav>
-
-    </div>
+<%- include('parts/header')%>
     <!-- <div class="nav-scroller mx-auto px-2 sm:px-4 lg:px-8">
         <div class="programming__languages container">
             <ul class="programming__languages__list flex nav">
@@ -166,9 +81,6 @@
         </div>
     </div> -->
     <!-- End Navbar -->
-
-
-
     <!-- Header -->
     <header>
         <div class="container">
@@ -200,11 +112,11 @@
     <!-- Main -->
     <main>
         <div class="container">
-            <div class="languages lg:grid lg:grid-rows-2 grid-flow-col gap-10" id="tutorials">
+            <div class="languages lg:grid lg:grid-rows-3 grid-flow-col gap-10" id="tutorials">
                 <% languages.forEach(language => { %> 
                 <div class="languages__item ">
-                    <i class="fab fa-html5"></i>
-                    <h4 class="title"><%= language.language_name %></h4>
+                    <i class="fab fa-<%= language.language_slug %>"></i>  
+                    <h4 class="title mb-4 font-semibold"><%= language.language_name %></h4>
                     <a href = "/<%= language.language_slug %>/" class="btn">
                         Batafsil
                     </a>

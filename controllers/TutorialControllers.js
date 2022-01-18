@@ -39,7 +39,6 @@ module.exports = class TutorialController {
             next(error)
         }   
     }
-
     static async TutorialGetController(req, res, next) {
         try {
             const language_slug = req.params.language_slug

@@ -14,4 +14,17 @@ module.exports = class HomeController {
             languages   
         })
     }
+    static async TutorialsGetController(req, res) {
+        const tutorials = await req.db.tutorial.findAll({
+            raw: true,
+            include: [
+                {
+                    model: req.db.language
+                }
+            ]
+        });
+        res.status(200).json({
+            tutorials
+        })
+    }
 }

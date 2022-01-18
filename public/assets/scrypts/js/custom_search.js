@@ -1,18 +1,28 @@
 const searchInputElement = document.querySelector('.header__section__search__input')
 const headerSectionElement = document.querySelector('.header__section__search')
-const data = [
-    'Html',
-    'Html tag',
-    'Html links',
-    'Html header',
-    'Html',
-    'Css',
-    'Js',
-    'Js 1',
-    'Js 2',
-    'JavaScript',
-    'Php'
-]
+const data = []
+async function getTutorials(){
+    let response = await fetch('/api/tutorials', {
+        method: 'GET',
+    })
+    response = await response.json()
+
+    console.log(response)
+
+    response.tutorials.forEach(item => {
+        data.push(item)
+    })
+}
+getTutorials()
+
+console.log(data);
+
+function convertToSlug(Text) {
+    return Text.toLowerCase()
+               .replace(/ /g, '-')
+               .replace(/[^\w-]+/g, '');
+}
+
 
 searchInputElement.addEventListener('input', (e) => {
     let inputDropdownElement = document.createElement('div')
@@ -20,12 +30,12 @@ searchInputElement.addEventListener('input', (e) => {
     searchInputElement.style = "border-radius: 30px 30px 0 0"
     data.forEach(item => {
 
-        if(item.toLowerCase().includes(searchInputElement.value.toLowerCase())){
+        if(item.tutorial_name.toLowerCase().includes(searchInputElement.value.toLowerCase())){
             const inputDropdownItemElement = document.createElement('div')
             inputDropdownItemElement.classList.add('input__dropdown__item')
             const inputDropdownItemLinkElement = document.createElement('a')
-            inputDropdownItemLinkElement.textContent = item
-            inputDropdownItemLinkElement.href = item
+            inputDropdownItemLinkElement.textContent = item.tutorial_name
+            inputDropdownItemLinkElement.href = `/${item["language.language_slug"]}/${item.tutorial_slug}`
             inputDropdownItemElement.appendChild(inputDropdownItemLinkElement)
             inputDropdownElement.appendChild(inputDropdownItemElement)
             headerSectionElement.appendChild(inputDropdownElement)

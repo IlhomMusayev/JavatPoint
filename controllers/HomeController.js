@@ -1,5 +1,6 @@
 module.exports = class HomeController {
     static async HomeController(req, res) {
+        console.log(req.ip);
         const languages = await req.db.language.findAll({
             include: [
                 {
@@ -9,7 +10,6 @@ module.exports = class HomeController {
             ]
         });
         
-        console.log(languages);
         res.render('index', {
             languages   
         })

@@ -25,6 +25,11 @@ router.get('/tutorials/:language_id', AuthMiddleware, TutorialsGetSubjectByLangu
 router.put('/tutorials', AuthMiddleware, TutorialPutController) 
 router.post('/tutorials/delete', TutorialDeleteController) 
 
+
+router.get('/logout', (req, res, next) =>{
+    res.clearCookie('token').redirect('/')
+})
+
 router.get(function (req, res) {
     res.render('404_admin')
 })

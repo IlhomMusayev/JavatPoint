@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@supercharge/request-ip": "^1.1.2",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",

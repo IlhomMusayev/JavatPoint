@@ -60,6 +60,10 @@ module.exports = class AdminController {
 
     }
 
+
+
+    // LANGUAGE
+
     static async LanguagesController(req, res, next) {
         try {
             const limit = req.query.limit || 15;
@@ -100,7 +104,6 @@ module.exports = class AdminController {
         }
 
     }
-
     static async LanguagesPutController(req, res, next) {
         try {
             const { language_name, status, language_id} = req.body
@@ -127,8 +130,6 @@ module.exports = class AdminController {
             next(error)
         }
     }
-
-
     static async LanguagesDeleteController(req, res, next) {
         try {
             const { language_id} = req.body
@@ -152,6 +153,9 @@ module.exports = class AdminController {
     }
 
 
+// SUBJECT
+
+
     static async SubjectController(req, res) {
         const languages = await req.db.language.findAll({
             raw: true,
@@ -164,7 +168,6 @@ module.exports = class AdminController {
             subjects
         })
     }
-
     static async SubjectPostController(req, res, next) {
         try {
             const data = await SubjectValidation(req.body, res.error)
@@ -185,6 +188,58 @@ module.exports = class AdminController {
            next(error)
         }
     }
+    static async SubjectPutController(req, res, next) {
+        try {
+            console.log(req.body);
+            const { subject_name, language_id, subject_id} = req.body
+
+            const subject = await req.db.subject.update(
+            {
+                subject_name: subject_name,
+                subject_slug: slug(subject_name),
+                language_id: language_id.trim()
+            },
+            {
+                where: { 
+                    subject_id: subject_id.trim()
+                }
+            })
+
+
+            res.status(200).json({
+                ok: true,
+                message: "Updated subject successfully"
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+    static async SubjectDeleteController(req, res, next) {
+        try {
+            const { subject_id } = req.body
+
+            console.log(subject_id);
+
+            const subject = await req.db.subject.destroy(
+            {
+                paranoid: true,
+                where: { 
+                    subject_id: subject_id.trim()
+                }
+            })
+
+            res.redirect('/admin/subject')
+            
+        } catch (error) {
+            
+            next(error)
+        }
+    }
+
+
+    // TUTORIAL
 
     static async TutorialsController(req, res) {
         const languages = await req.db.language.findAll({
@@ -202,8 +257,6 @@ module.exports = class AdminController {
             tutorials
         })
     }
-
-    
     static async TutorialsPostController(req, res, next) {
         try {
             
@@ -227,6 +280,55 @@ module.exports = class AdminController {
         } catch (error) {
             
          next(error)   
+        }
+    }
+    static async TutorialPutController(req, res, next) {
+        try {
+            console.log(req.body);
+            const { subject_name, language_id, subject_id} = req.body
+
+            const subject = await req.db.subject.update(
+            {
+                subject_name: subject_name,
+                subject_slug: slug(subject_name),
+                language_id: language_id.trim()
+            },
+            {
+                where: { 
+                    subject_id: subject_id.trim()
+                }
+            })
+
+
+            res.status(200).json({
+                ok: true,
+                message: "Updated subject successfully"
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+    static async TutorialDeleteController(req, res, next) {
+        try {
+            const { subject_id } = req.body
+
+            console.log(subject_id);
+
+            const subject = await req.db.subject.destroy(
+            {
+                paranoid: true,
+                where: { 
+                    subject_id: subject_id.trim()
+                }
+            })
+
+            res.redirect('/admin/subject')
+            
+        } catch (error) {
+            
+            next(error)
         }
     }
     

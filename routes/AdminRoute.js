@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { DashboardController, LoginGetController, LoginPostController, LanguagesController, LanguagesPostController, LanguagesPutController, LanguagesDeleteController, SubjectController, SubjectPostController, TutorialsController, TutorialsPostController, TutorialsGetSubjectByLanguageController } = require("../controllers/AdminControllers")
+const { DashboardController, LoginGetController, LoginPostController, LanguagesController, LanguagesPostController, LanguagesPutController, LanguagesDeleteController, SubjectController, SubjectPostController, SubjectPutController, SubjectDeleteController, TutorialsController, TutorialsPostController, TutorialsGetSubjectByLanguageController } = require("../controllers/AdminControllers")
 const AuthMiddleware = require("../middlewares/authMiddleware")
 
 router.get('/login', LoginGetController) 
@@ -14,6 +14,11 @@ router.post('/languages/delete', LanguagesDeleteController)
 
 router.get('/subject', AuthMiddleware, SubjectController) 
 router.post('/subject', AuthMiddleware, SubjectPostController) 
+router.put('/subject', AuthMiddleware, SubjectPutController) 
+router.post('/subject/delete', SubjectDeleteController) 
+
+
+
 router.get('/tutorials', AuthMiddleware, TutorialsController) 
 router.post('/tutorials', AuthMiddleware, TutorialsPostController) 
 router.get('/tutorials/:language_id', AuthMiddleware, TutorialsGetSubjectByLanguageController) 

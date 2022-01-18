@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { DashboardController, LoginGetController, LoginPostController, LanguagesController, LanguagesPostController, LanguagesPutController, LanguagesDeleteController, SubjectController, SubjectPostController, SubjectPutController, SubjectDeleteController, TutorialsController, TutorialsPostController, TutorialsGetSubjectByLanguageController } = require("../controllers/AdminControllers")
+const { DashboardController, LoginGetController, LoginPostController, LanguagesController, LanguagesPostController, LanguagesPutController, LanguagesDeleteController, SubjectController, SubjectPostController, SubjectPutController, SubjectDeleteController, TutorialsController, TutorialsPostController, TutorialsGetSubjectByLanguageController, TutorialPutController, TutorialDeleteController } = require("../controllers/AdminControllers")
 const AuthMiddleware = require("../middlewares/authMiddleware")
 
 router.get('/login', LoginGetController) 
@@ -22,6 +22,8 @@ router.post('/subject/delete', SubjectDeleteController)
 router.get('/tutorials', AuthMiddleware, TutorialsController) 
 router.post('/tutorials', AuthMiddleware, TutorialsPostController) 
 router.get('/tutorials/:language_id', AuthMiddleware, TutorialsGetSubjectByLanguageController) 
+router.put('/tutorials', AuthMiddleware, TutorialPutController) 
+router.post('/tutorials/delete', TutorialDeleteController) 
 
 router.get(function (req, res) {
     res.render('404_admin')

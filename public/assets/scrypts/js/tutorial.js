@@ -1,9 +1,10 @@
 // Select subject
-const languageSelect = document.querySelector('.language__select')
-const subjectSelect = document.querySelector('.subject__select')
+const languageSelect = document.querySelectorAll('.language__select')
+const subjectSelect = document.querySelectorAll('.subject__select')
 
-languageSelect.addEventListener('change', async (e) => {
-    let response = await fetch('/admin/tutorials/'+ languageSelect.value, { 
+languageSelect.forEach(select =>{
+  select.addEventListener('change', async (e) => {
+    let response = await fetch('/admin/tutorials/'+ select.value, { 
         method: 'GET',
     })
 
@@ -16,7 +17,10 @@ languageSelect.addEventListener('change', async (e) => {
         subject = subject + `<option value=${item["subjects.subject_id"]}>${item["subjects.subject_name"]} </option>`
     })
 
-    subjectSelect.innerHTML = subject
+    subjectSelect.forEach(item => {
+      item.innerHTML = subject
+    })
+})
 })
 
 // Create tutorial

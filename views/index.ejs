@@ -205,7 +205,7 @@
                 <div class="languages__item ">
                     <i class="fab fa-html5"></i>
                     <h4 class="title"><%= language.language_name %></h4>
-                    <a href = "/<%= language.language_slug %>/<%= language.tutorials[0].tutorial_slug %>" class="btn">
+                    <a href = "/<%= language.language_slug %>/<% if(language.tutorials.length > 0) {%><%= language.tutorials[0].tutorial_slug %><% }else{ %><% }%>  " class="btn">
                         Batafsil
                     </a>
                 </div>

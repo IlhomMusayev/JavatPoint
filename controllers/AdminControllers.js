@@ -285,24 +285,26 @@ module.exports = class AdminController {
     static async TutorialPutController(req, res, next) {
         try {
             console.log(req.body);
-            const { subject_name, language_id, subject_id} = req.body
+            const { tutorial_name, language_id, subject_id, tutorial_content, tutorial_id} = req.body
 
-            const subject = await req.db.subject.update(
+            const tutorial = await req.db.tutorial.update(
             {
-                subject_name: subject_name,
-                subject_slug: slug(subject_name),
-                language_id: language_id.trim()
+                tutorial_name: tutorial_name,
+                tutorial_slug: slug(tutorial_name),
+                language_id: language_id.trim(),
+                subject_id: subject_id.trim(),
+                tutorial_content: tutorial_content
             },
             {
                 where: { 
-                    subject_id: subject_id.trim()
+                    tutorial_id: tutorial_id.trim()
                 }
             })
 
 
             res.status(200).json({
                 ok: true,
-                message: "Updated subject successfully"
+                message: "Updated Tutorial successfully"
             })
             
         } catch (error) {
@@ -312,19 +314,18 @@ module.exports = class AdminController {
     }
     static async TutorialDeleteController(req, res, next) {
         try {
-            const { subject_id } = req.body
+            const { tutorial_id } = req.body
 
-            console.log(subject_id);
+            console.log(tutorial_id);
 
-            const subject = await req.db.subject.destroy(
+            const tutorial = await req.db.tutorial.destroy(
             {
-                paranoid: true,
                 where: { 
-                    subject_id: subject_id.trim()
+                    tutorial_id: tutorial_id.trim()
                 }
             })
 
-            res.redirect('/admin/subject')
+            res.redirect('/admin/tutorials')
             
         } catch (error) {
             

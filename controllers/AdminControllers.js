@@ -9,12 +9,10 @@ module.exports = class AdminController {
         res.render('admin', {
         })
     }
-
     static async LoginGetController(req, res) {
         res.render('login', {
         })
     }
-
     static async LoginPostController(req, res) {
         const {
             user_email,
@@ -65,20 +63,29 @@ module.exports = class AdminController {
     // LANGUAGE
 
     static async LanguagesController(req, res, next) {
-        try {
-            const limit = req.query.limit || 15;
-			const offset = req.query.offset - 1 || 0;
+        try {   
+            const limit = req.query.limit || 10;
+			let offset = req.query.offset - 1 || 0;
+            const languageCount = await req.db.language.findAll({})
+            console.log(offset);
+            const count = Math.ceil(languageCount.length/limit)
+            if (offset < 0) {
+                offset = 0 
+            }
 
-			const languages = await req.db.language.findAll({
-				raw: true,
-				// limit,
-				// offset: offset * limit,
-			});
-
+            const languages = await req.db.language.findAll({
+                raw: true,
+                limit,
+                offset: offset * limit,
+            });
             res.render('languages', {
-                languages
+                languages,
+                limit,
+                offset,
+                count
             })
         } catch (error) {
+            console.log(error);
             next(error)
         }
     }
@@ -153,19 +160,38 @@ module.exports = class AdminController {
     }
 
 
-// SUBJECT
 
+
+
+
+
+    // SUBJECT
 
     static async SubjectController(req, res) {
+        const limit = req.query.limit || 10;
+        let offset = req.query.offset - 1 || 0;
+        const subjectCount = await req.db.subject.findAll({})
+        console.log(offset);
+        const count = Math.ceil(subjectCount.length/limit)
+        if (offset < 0) {
+            offset = 0 
+        }
+
         const languages = await req.db.language.findAll({
             raw: true,
         });
         const subjects = await req.db.subject.findAll({
             raw: true,
+            limit,
+            offset: offset * limit, 
         });
+        
         res.render('subject', {
             languages,
-            subjects
+            subjects,
+            count,
+            limit,
+            offset
         })
     }
     static async SubjectPostController(req, res, next) {
@@ -239,9 +265,23 @@ module.exports = class AdminController {
     }
 
 
+
+
+
+
     // TUTORIAL
 
     static async TutorialsController(req, res) {
+        const limit = req.query.limit || 10;
+        let offset = req.query.offset - 1 || 0;
+        const tutorialCount = await req.db.tutorial.findAll({})
+        console.log(offset);
+        const count = Math.ceil(tutorialCount.length/limit)
+        if (offset < 0) {
+            offset = 0 
+        }
+
+
         const languages = await req.db.language.findAll({
             raw: true,
         });
@@ -250,11 +290,16 @@ module.exports = class AdminController {
         });
         const tutorials = await req.db.tutorial.findAll({
             raw: true,
+            limit,
+            offset: offset * limit
         });
         res.render('tutorials', {
             languages, 
             subjects,
-            tutorials
+            tutorials,
+            limit,
+            count,
+            offset
         })
     }
     static async TutorialsPostController(req, res, next) {
@@ -331,8 +376,7 @@ module.exports = class AdminController {
             
             next(error)
         }
-    }
-    
+    }  
     static async TutorialsGetSubjectByLanguageController(req, res, next) {
         try {
             const subject = await req.db.language.findAll({

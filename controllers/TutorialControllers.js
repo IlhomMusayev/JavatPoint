@@ -24,7 +24,11 @@ module.exports = class TutorialController {
                     order: [['updatedAt', 'ASC']]
                 })
 
-                res.redirect(`/${language_slug}/${tutorials[0].tutorial_slug}`)
+                if(tutorials[0]){
+                    res.redirect(`/${language_slug}/${tutorials[0].tutorial_slug}`)
+                }else{
+                    res.render("404")
+                }
             }
             
 

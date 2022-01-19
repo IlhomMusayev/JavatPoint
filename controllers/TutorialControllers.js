@@ -10,8 +10,6 @@ module.exports = class TutorialController {
                 },
             })
 
-            console.log(language_id);
-
             if (!language_id) {
                 res.render("404")
                 return;
@@ -43,7 +41,17 @@ module.exports = class TutorialController {
         try {
             const language_slug = req.params.language_slug
             const tutorial_slug = req.params.tutorial_slug
-
+            const languages = await req.db.language.findAll({
+                where: {
+                    language_status: "active"
+                },
+                include: [
+                    {
+                        model: req.db.tutorial,
+                        order: [['updatedAt', 'ASC']]
+                    }
+                ]
+            });
             const language_id = await req.db.language.findOne({
                 raw: true,
                 where: {
@@ -93,7 +101,8 @@ module.exports = class TutorialController {
 
             res.render('tutorial', {
                 tutirials: data2,
-                subjects: data1
+                subjects: data1,
+                languages
             })
         } catch (error) {
             console.log(error);

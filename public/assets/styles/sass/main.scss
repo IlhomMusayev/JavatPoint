@@ -62,4 +62,18 @@ body{
   #modal1{
     display: none;  
   }
-  
+  .flayout_menu{
+    display: none;
+  }
+  .tutorials_link {
+    &:hover {
+        .flayout_menu{
+        display: block;
+      }
+    }
+  }
+
+.language-markup{
+  background-color: #000;
+  color: #fff;
+}

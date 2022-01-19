@@ -37,9 +37,9 @@ header {
       -ms-flex-align: center;
           align-items: center;
   z-index: 1;
-  background: url("../../images/header-bg.jpg") no-repeat center;
+  background: url("../../images/wallpaperflare.com_wallpaper.jpg") no-repeat center;
   background-size: cover;
-  color: #fff;
+  color: #424242;
   height: 90vh;
 }
 
@@ -262,5 +262,18 @@ body {
 
 #modal1 {
   display: none;
+}
+
+.flayout_menu {
+  display: none;
+}
+
+.tutorials_link:hover .flayout_menu {
+  display: block;
+}
+
+.language-markup {
+  background-color: #000;
+  color: #fff;
 }
 /*# sourceMappingURL=main.css.map */

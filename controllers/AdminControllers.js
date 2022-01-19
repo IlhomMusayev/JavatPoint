@@ -77,6 +77,7 @@ module.exports = class AdminController {
                 raw: true,
                 limit,
                 offset: offset * limit,
+                order: [['updatedAt', 'DESC']]
             });
             res.render('languages', {
                 languages,
@@ -93,6 +94,7 @@ module.exports = class AdminController {
         try {
             const data = await LanguageValidation(req.body, res.error)
 
+            console.log(req.files.file_name);
             const language = await req.db.language.create({
                 language_name: data.language_name,
                 language_slug: slug(data.language_name),
@@ -180,6 +182,7 @@ module.exports = class AdminController {
             raw: true,
             limit,
             offset: offset * limit, 
+            order: [['updatedAt', 'DESC']]
         });
         
         res.render('subject', {
@@ -287,7 +290,8 @@ module.exports = class AdminController {
         const tutorials = await req.db.tutorial.findAll({
             raw: true,
             limit,
-            offset: offset * limit
+            offset: offset * limit,
+            order: [['updatedAt', 'DESC']]
         });
         res.render('tutorials', {
             languages, 

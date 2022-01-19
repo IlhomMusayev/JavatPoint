@@ -2,6 +2,9 @@ module.exports = class HomeController {
     static async HomeController(req, res) {
         console.log(req.ip);
         const languages = await req.db.language.findAll({
+            where: {
+                language_status: "active"
+            },
             include: [
                 {
                     model: req.db.tutorial,

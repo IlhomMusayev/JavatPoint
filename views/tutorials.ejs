@@ -7,10 +7,10 @@
   <title>Windmill Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/styles/css/tailwind.output.css" />
+
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="/assets/scrypts/js/init-alpine.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
+
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
   </script>
@@ -403,8 +403,8 @@
             x-transition:enter-start="opacity-0 transform translate-y-1/2" x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0  transform translate-y-1/2"
-            class="px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-lg"
-            role="dialog" id="modal" style="width: 80%; height: 80%; overflow-y: auto;">
+            class="max-w-screen px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-lg"
+            role="dialog" id="modal" style="max-width: 80%; height: 80%; overflow-y: auto;">
             <!-- Remove header if you don't want a close icon. Use modal body to place modal tile. -->
             <header class="flex justify-end">
               <button
@@ -489,7 +489,7 @@
           x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
           x-transition:leave-end="opacity-0  transform translate-y-1/2"
           class="px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-lg"
-          role="dialog" style="width: 80%; height: 80%; overflow-y: auto; position: absolute;
+          role="dialog" style="max-width: 80%; height: 80%; overflow-y: auto; position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);">
@@ -640,6 +640,7 @@
   <script src="/assets/scrypts/js/tinymce.js"></script>
   <script src="/assets/scrypts/js/tutorial.js"></script>
   <script src="/assets/scrypts/js/tutorialEdit.js"></script>
+  <script src="/assets/scrypts/js/init-alpine.js"></script>
 
 </body>
 

@@ -14,6 +14,10 @@ module.exports = async (sequelize, Sequelize) => {
 			type: Sequelize.STRING(),
 			allowNull: false,
 		},
+		language_logo: {
+			type: Sequelize.STRING(),
+			allowNull: false,
+		},
         language_status: {
             type: Sequelize.ENUM,
             values: ["active", "recording", "deleted"],

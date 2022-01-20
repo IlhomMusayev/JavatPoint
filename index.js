@@ -39,6 +39,7 @@ async function start() {
         app.use(express.urlencoded({
             extended: true
         }))
+        
 
     } catch (error) {
         console.log(error);

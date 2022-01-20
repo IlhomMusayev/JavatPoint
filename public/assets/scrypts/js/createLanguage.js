@@ -3,15 +3,16 @@ async function createLanguage() {
     const languageForm = document.querySelector('.language__form')
     languageForm.addEventListener('submit', async (e) => {
         e.preventDefault()
+        console.log(languageForm.file_name.files[0]);
+        const formData = new FormData()
+
+        formData.append("language_name", languageForm.language_name.value)
+        formData.append("status", languageForm.status.value)
+        formData.append("file", languageForm.file_name.files[0])
+
         const option = {
             method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                language_name: languageForm.language_name.value,
-                status: languageForm.status.value,
-            })
+            body: formData
         }
 
         let response = await fetch('/admin/languages', option)

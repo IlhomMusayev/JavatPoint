@@ -1,6 +1,7 @@
 const { compareHash } = require('../modules/bcript')
 const { genereteToken } = require('../modules/jwt')
 const slug = require('slug')
+const path = require('path');
 
 const { LanguageValidation , SubjectValidation, TutorialValidation} = require('../modules/validation')
 
@@ -94,12 +95,23 @@ module.exports = class AdminController {
         try {
             const data = await LanguageValidation(req.body, res.error)
 
-            console.log(req.files.file_name);
+            console.log(req.files.file);
+
+
+            const imgName = req.files.file.name.split(".")
+
+            const filename = req.files.file.md5 + '.' + imgName[imgName.length - 1]
+            
             const language = await req.db.language.create({
                 language_name: data.language_name,
                 language_slug: slug(data.language_name),
-                language_status: data.status
+                language_status: data.status,
+                language_logo: filename
             }) 
+
+            req.files.file.mv(
+                path.join(__dirname, '..', 'public', 'files', filename),
+            )
 
             res.status(201).json({
 				ok: true,
@@ -109,6 +121,7 @@ module.exports = class AdminController {
                 }
 			});
         } catch (error) {
+            console.log(error);
            next(error)
         }
 

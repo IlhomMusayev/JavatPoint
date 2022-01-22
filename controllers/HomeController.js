@@ -5,6 +5,7 @@ module.exports = class HomeController {
             where: {
                 language_status: "active"
             },
+            order: [['updatedAt', 'ASC']],
             include: [
                 {
                     model: req.db.tutorial,

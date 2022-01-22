@@ -116,7 +116,7 @@
         <div class="container">
             <div class="languages grid-cols-1 grid sm:grid-cols-2 lg:grid-cols-4 gap-10" id="tutorials">
                 <% languages.forEach(language => { %> 
-                <div class="languages__item drop-shadow-xl hover:drop-shadow-2xl">
+                <div class="languages__item drop-shadow-xl hover:drop-shadow-2xl ">
                     <img class="m-auto mb-4" src="/files/<%= language.language_logo %>" alt="" style="width: 200px; height: 200px; object-fit: cover">
                     <h4 class="title mb-4 font-semibold"><%= language.language_name %></h4>
                     <a href = "/<%= language.language_slug %>/" class="btn">

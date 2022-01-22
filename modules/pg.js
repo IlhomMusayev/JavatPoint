@@ -8,6 +8,7 @@ const SessionModel = require('../models/SessionModel')
 const LanguageModel = require('../models/LanguageModel')
 const SubjectModel = require('../models/SubjectModel')
 const TutorialModel = require('../models/TutorialModel')
+const GuestsModel = require('../models/GuestsModel')
 
 // create the database connection
 const sequelize = new Sequelize('postgres://postgres:qwerty@localhost:5432/javatpoint', {
@@ -24,6 +25,7 @@ module.exports = async function postgres() {
 		db.language = await LanguageModel(sequelize, Sequelize)
 		db.subject = await SubjectModel(sequelize, Sequelize)
 		db.tutorial = await TutorialModel(sequelize, Sequelize)
+		db.guests = await GuestsModel(sequelize, Sequelize)
 
 		await relations(db);
 		await init(db);	

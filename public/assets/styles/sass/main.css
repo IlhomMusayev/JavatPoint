@@ -271,4 +271,43 @@ body {
 .tutorials_link:hover .flayout_menu {
   display: block;
 }
+
+pre {
+  position: relative;
+  border-radius: 10px;
+}
+
+.copy_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #04AA6D;
+  padding: 2px 15px;
+  border-bottom-left-radius: 10px;
+  opacity: 0.4;
+}
+
+.copy_btn:hover {
+  opacity: 1;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+
+.copy_btn i {
+  width: 80%;
+}
+
+.copy_alert {
+  display: none;
+  position: absolute;
+  top: 20%;
+  right: 4%;
+  background: #f2f2f2;
+  padding: 2px 10px;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  color: #000;
+  font-weight: bold;
+}
 /*# sourceMappingURL=main.css.map */

@@ -322,7 +322,7 @@
                         </td>
                         
                         <td class="px-4 py-3 text-sm">
-                          <%= tutorial.createdAt  %> 
+                          <%= moment(tutorial.createdAt).locale('uz-latn').format("LLL") %> 
                         </td>
                         <td class="px-4 py-3">
                           <div class="flex items-center space-x-4 text-sm">
@@ -637,6 +637,7 @@
   <script src="https://cdn.tiny.cloud/1/ez4jtc020qfra5unsldb01re2erujz0qzk751qmzwmsfgf6p/tinymce/5/tinymce.min.js"
     referrerpolicy="origin"></script>
   <script src="/assets/scrypts/js/tinymce.js"></script>
+  <script src="/assets/scrypts/js/moment.js"></script>
   <script src="/assets/scrypts/js/tutorial.js"></script>
   <script src="/assets/scrypts/js/tutorialEdit.js"></script>
   <script src="/assets/scrypts/js/init-alpine.js"></script>

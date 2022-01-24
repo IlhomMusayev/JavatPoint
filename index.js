@@ -7,6 +7,7 @@ require('dotenv').config()
 const cookieParser = require('cookie-parser');
 const userMiddleware = require('./middlewares/userMiddleware')
 const customErrorMiddleware = require('./middlewares/customErrorMiddleware')
+const statisticsMiddleware = require("./middlewares/statisticsMiddleware")
 
 
 const app = express();
@@ -28,7 +29,9 @@ async function start() {
         app.use(cookieParser());
         app.use(customErrorMiddleware);
         app.use(userMiddleware)
+        app.use(statisticsMiddleware)
 
+        app.locals.moment = require('moment');
 
         app.set("view engine", "ejs");
         app.set("views", path.join(__dirname, "views"));

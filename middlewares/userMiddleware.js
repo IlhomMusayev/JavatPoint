@@ -14,14 +14,21 @@ module.exports = async function userMiddleware(req, res, next) {
             throw new Error(401, 'Token not valid');
         }
 
-        const user = await req.db.admins.findOne({
-            where: {
-                user_id: token.id,
-            },
-            raw: true,
-        });
+       
+		const session = await req.db.sessions.findOne({
+			where: {
+				session_id: token.session_id,
+			},
+			include: req.db.users,
+			raw: true,
+		});
+
+		if (!session) {
+			throw new res.error(401, "Session isn't found");
+		}
+
         // console.log(user);
-        req.user = await user;
+        req.session = await session;    
 
         next()
     } catch (error) {

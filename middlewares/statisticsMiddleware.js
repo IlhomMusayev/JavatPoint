@@ -1,17 +1,25 @@
-// const client = require('../modules/redis')
-const redis = require("redis")
-const REDIS_PORT = process.env.REDIS_PORT
-
-const client = redis.createClient(REDIS_PORT)
+var geoip = require('geoip-lite');
+const url = require('url');
 
 module.exports = async function statisticsMiddleware(req, res, next) {
     try {
-        await client.connect();
-        const ip = req.ip ;
-        user = await client.get("*")
+        const ip = req.ip
+        const user_agent = req.headers["user-agent"];
 
+        const user = await req.db.guests.findOne({
+            where: {
+                guest_ip: ip,
+            }
+        })
+       if (!user) {
+           await req.db.guests.create({
+                guest_ip: ip,
+                guest_agent: user_agent
+           }) 
+           next()
+       }
+        next()
     } catch (error) {
-        console.log(error)
-        next(error)
+        next()
     }
 }

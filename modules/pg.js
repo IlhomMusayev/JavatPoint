@@ -31,6 +31,7 @@ module.exports = async function postgres() {
 		await init(db);	
 		
 		await sequelize.sync({ force: false});
+		// await db.guests.sync({ force: true});
 
 		return db;
 	} catch (error) {

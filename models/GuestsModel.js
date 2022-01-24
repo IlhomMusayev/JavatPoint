@@ -10,13 +10,9 @@ module.exports = async (sequelize, Sequelize) => {
 			type: Sequelize.STRING(),
 			allowNull: false,
 		},
-        guest_country: {
+		guest_agent: {
 			type: Sequelize.STRING(),
 			allowNull: false,
-		},
-        guest_route: {
-			type: Sequelize.STRING(),
-			allowNull: false,
-		},
+		}
 	});
 };

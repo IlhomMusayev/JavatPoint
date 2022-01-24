@@ -1,6 +1,7 @@
 module.exports = class HomeController {
     static async HomeController(req, res) {
-      
+        console.log(req.url.split('/')[0]);
+
         const languages = await req.db.language.findAll({
             where: {
                 language_status: "active"

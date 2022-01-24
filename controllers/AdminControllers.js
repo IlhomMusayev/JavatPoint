@@ -6,7 +6,10 @@ const path = require('path');
 const { LanguageValidation , SubjectValidation, TutorialValidation} = require('../modules/validation')
 
 module.exports = class AdminController {
+    
     static async DashboardController(req, res) {
+        const guests = await req.db.guests.findAll({raw: true})
+        console.log(guests);
         res.render('admin', {
         })
     }
@@ -424,4 +427,9 @@ module.exports = class AdminController {
             next(error)
         }
     }
+
+
+
+    // STATISTICS
+    
 }

@@ -8,9 +8,8 @@ const cookieParser = require('cookie-parser');
 const userMiddleware = require('./middlewares/userMiddleware')
 const customErrorMiddleware = require('./middlewares/customErrorMiddleware')
 const statisticsMiddleware = require("./middlewares/statisticsMiddleware")
-
-
 const app = express();
+
 const PORT = process.env.PORT
 
 async function start() {

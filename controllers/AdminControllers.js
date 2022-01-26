@@ -21,8 +21,6 @@ module.exports = class AdminController {
         const guests = await req.db.guests.findAll({
             raw: true,
         })
-
-
         let todayDatas = []
 
         const todayGuests = guests.map(guest => {
@@ -30,8 +28,6 @@ module.exports = class AdminController {
                 todayDatas.push(guest)
             }
         })
-
-        console.log(todayDatas);
 
         res.render('admin', {
             guests: guests.length,
@@ -42,61 +38,65 @@ module.exports = class AdminController {
     static async LoginGetController(req, res) {
         res.render('login', {})
     }
-    static async LoginPostController(req, res) {
-        const {
-            user_email,
-            password
-        } = req.body;
-
-        const user = await req.db.admins.findOne({
-            where: {
+    static async LoginPostController(req, res, next) {
+        try {
+            const {
                 user_email,
-            },
-            raw: true,
-        });
-
-        if (!user) {
-            res.render('login', {
-                errorStatus: true,
-                error: 'User not found'
+                password
+            } = req.body;
+    
+            const user = await req.db.admins.findOne({
+                where: {
+                    user_email,
+                },
+                raw: true,
             });
-            return;
-        }
-        if (!(await compareHash(password, user.user_password))) {
-            res.render('login', {
-                errorStatus: true,
-                error: 'Invalid password'
+    
+            if (!user) {
+                res.render('login', {
+                    errorStatus: true,
+                    error: 'User not found'
+                });
+                return;
+            }
+            if (!(await compareHash(password, user.user_password))) {
+                res.render('login', {
+                    errorStatus: true,
+                    error: 'Invalid password'
+                });
+                return;
+            }
+    
+            await req.db.sessions.destroy({
+                where: {
+                    session_useragent: req.headers["user-agent"] || "Unknown",
+                    user_id: user.user_id,
+                },
             });
-            return;
-        }
-
-        await req.db.sessions.destroy({
-            where: {
+    
+            const session = await req.db.sessions.create({
                 session_useragent: req.headers["user-agent"] || "Unknown",
                 user_id: user.user_id,
-            },
-        });
-
-        const session = await req.db.sessions.create({
-            session_useragent: req.headers["user-agent"] || "Unknown",
-            user_id: user.user_id,
-        });
-
-
-        const token = await genereteToken({
-            session_id: session.dataValues.session_id,
-        });
-
-
-        if (!token) {
-            res.render('login', {
-                errorStatus: true,
-                error: 'Token generate error'
             });
-            return;
+    
+    
+            const token = await genereteToken({
+                session_id: session.dataValues.session_id,
+            });
+    
+    
+            if (!token) {
+                res.render('login', {
+                    errorStatus: true,
+                    error: 'Token generate error'
+                });
+                return;
+            }
+    
+            res.cookie('token', token).redirect('/admin')
+        } catch (error) {
+            next(error)
         }
-
-        res.cookie('token', token).redirect('/admin')
 
     }
 

@@ -1,6 +1,12 @@
+const moment = require('moment')
+
 module.exports = class HomeController {
     static async HomeController(req, res) {
-        console.log(req.url.split('/')[0]);
+
+        const guests = await req.db.guests.findAll({
+            raw: true,
+        })
+
 
         const languages = await req.db.language.findAll({
             where: {
@@ -16,7 +22,8 @@ module.exports = class HomeController {
         });
         
         res.render('index', {
-            languages   
+            languages,
+            guests: guests.length
         })
     }
     static async TutorialsGetController(req, res) {

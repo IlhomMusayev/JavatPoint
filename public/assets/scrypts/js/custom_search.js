@@ -7,15 +7,11 @@ async function getTutorials(){
     })
     response = await response.json()
 
-    console.log(response)
-
     response.tutorials.forEach(item => {
         data.push(item)
     })
 }
 getTutorials()
-
-console.log(data);
 
 function convertToSlug(Text) {
     return Text.toLowerCase()

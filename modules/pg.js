@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const init = require('../modules/init');
 const relations = require('./relation');
-
+require('dotenv').config()
 
 const UserModel = require('../models/UserModel')
 const SessionModel = require('../models/SessionModel')
@@ -9,9 +9,10 @@ const LanguageModel = require('../models/LanguageModel')
 const SubjectModel = require('../models/SubjectModel')
 const TutorialModel = require('../models/TutorialModel')
 const GuestsModel = require('../models/GuestsModel')
+const PSQL_URL = process.env.PSQL_URL
 
 // create the database connection
-const sequelize = new Sequelize('postgres://postgres:qwerty@localhost:5432/javatpoint', {
+const sequelize = new Sequelize(PSQL_URL, {
     logging: false,
 });    
 

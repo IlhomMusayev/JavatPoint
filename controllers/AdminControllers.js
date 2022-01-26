@@ -1,5 +1,7 @@
 const { compareHash } = require('../modules/bcript')
 const { genereteToken } = require('../modules/jwt')
+const Sequelize = require('sequelize');
+const moment = require('moment')
 const slug = require('slug')
 const path = require('path');
 
@@ -8,10 +10,21 @@ const { LanguageValidation , SubjectValidation, TutorialValidation} = require('.
 module.exports = class AdminController {
     
     static async DashboardController(req, res) {
-        const guests = await req.db.guests.findAll({raw: true})
-        console.log(guests);
-        res.render('admin', {
+        const guests = await req.db.guests.findAll({
+            raw: true,
         })
+        const todayGuests = await req.db.guests.findAll({
+            raw: true,
+            where: {
+                createdAt: moment(new Date()).subtract(0, 'days').format('MMMM Do YYYY')
+            }
+        })
+        console.log(moment(new Date()).format('MMMM Do YYYY'));
+
+        res.render('admin', {
+            guests: guests.length
+        })
+
     }
     static async LoginGetController(req, res) {
         res.render('login', {
@@ -431,5 +444,32 @@ module.exports = class AdminController {
 
 
     // STATISTICS
-    
+    static async StatisticsController(req, res) {
+        const Op = Sequelize.Op;
+        const guests = await req.db.guests.findAll({
+            raw: true,
+            where: {
+                createdAt: {
+                  [Op.gte]: moment().subtract(3, 'days').toDate()
+                }
+            }})
+
+        let data = []
+        let labels = []
+        for(let i = 6; i >= 0; i--) {
+            labels.push(moment(new Date()).subtract(i, 'days').locale('uz-latn').format('MMMM Do YYYY'))
+            let count = 0
+            guests.forEach(guest => {
+                if(moment(guest.createdAt).format('MMMM Do YYYY') === moment(new Date()).subtract(i, 'days').format('MMMM Do YYYY')){
+                    count ++
+                }
+            });
+            data.push(count)
+        }
+                
+        res.status(200).json({
+            data,
+            labels
+        })
+    }
 }

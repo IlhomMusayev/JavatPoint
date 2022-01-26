@@ -1,10 +1,16 @@
 /**
  * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
  */
+;(async function getData() {
+    let response = await fetch('/admin/statistics', {
+      mehod: 'GET'
+    })
+    response = await response.json()
+
 const lineConfig = {
   type: 'line',
   data: {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: response.labels,
     datasets: [
       {
         label: 'Organic',
@@ -14,10 +20,10 @@ const lineConfig = {
          */
         backgroundColor: '#0694a2',
         borderColor: '#0694a2',
-        data: [43, 48, 40, 54, 67, 73, 70],
+        data: response.data,
         fill: false,
       }
-    ],
+    ],  
   },
   options: {
     responsive: true,
@@ -58,3 +64,4 @@ const lineConfig = {
 // change this to the id of your chart element in HMTL
 const lineCtx = document.getElementById('line')
 window.myLine = new Chart(lineCtx, lineConfig)
+})()

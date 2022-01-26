@@ -1,11 +1,12 @@
 const router = require("express").Router()
-const { DashboardController, LoginGetController, LoginPostController, LanguagesController, LanguagesPostController, LanguagesPutController, LanguagesDeleteController, SubjectController, SubjectPostController, SubjectPutController, SubjectDeleteController, TutorialsController, TutorialsPostController, TutorialsGetSubjectByLanguageController, TutorialPutController, TutorialDeleteController } = require("../controllers/AdminControllers")
+const { DashboardController, LoginGetController, LoginPostController, LanguagesController, LanguagesPostController, LanguagesPutController, LanguagesDeleteController, SubjectController, SubjectPostController, SubjectPutController, SubjectDeleteController, TutorialsController, TutorialsPostController, TutorialsGetSubjectByLanguageController, TutorialPutController, TutorialDeleteController, StatisticsController } = require("../controllers/AdminControllers")
 const AuthMiddleware = require("../middlewares/authMiddleware")
 const expressFileUpload = require("express-fileupload")
 
 router.get('/login', LoginGetController) 
 router.post('/login', LoginPostController) 
 router.get('/', AuthMiddleware, DashboardController) 
+router.get('/statistics', AuthMiddleware, StatisticsController) 
 
 router.get('/languages', AuthMiddleware, LanguagesController) 
 router.post('/languages',expressFileUpload(), AuthMiddleware, LanguagesPostController) 

@@ -23,6 +23,7 @@
 </head>
 
 <body>
+  <% var guests%> 
   <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
     <!-- Desktop sidebar -->
     <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
@@ -292,28 +293,27 @@
               </div>
               <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Total clients
+                  Total users
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  6389
+                  <%= guests %>
                 </p>
               </div>
             </div>
             <!-- Card -->
             <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
               <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd"
-                    d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                    clip-rule="evenodd"></path>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                width="24" height="24" fill="currentColor"
+                viewBox="0 0 172 172"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g id="original-icon" fill="#ffffff"><path d="M43,14.33333v14.33333h-21.5v7.16667v121.83333h129v-129h-21.5v-14.33333h-14.33333v14.33333h-57.33333v-14.33333zM35.83333,64.5h100.33333v78.83333h-100.33333zM106.07226,80.98893l-23.6556,23.6416l-12.9056,-12.8916l-10.02214,10.02214l22.92773,22.94173l33.67774,-33.69173z"></path></g></g>
+              </svg>
               </div>
               <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Account balance
+                  Bugungi kirishlar soni
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  $ 46,760.89
+                  
                 </p>
               </div>
             </div>
@@ -360,7 +360,7 @@
           class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
         >
           <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-            
+            Haftalik statistika
           </h4>
           <canvas id="line"></canvas>
           <div
@@ -371,13 +371,7 @@
               <span
                 class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"
               ></span>
-              <span>Organic</span>
-            </div>
-            <div class="flex items-center">
-              <span
-                class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"
-              ></span>
-              <span>Paid</span>
+              <span>Haftalik kirishlar soni</span>
             </div>
           </div>
         </div>

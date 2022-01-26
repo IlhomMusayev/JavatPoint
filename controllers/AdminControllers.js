@@ -1,34 +1,46 @@
-const { compareHash } = require('../modules/bcript')
-const { genereteToken } = require('../modules/jwt')
+const {
+    compareHash
+} = require('../modules/bcript')
+const {
+    genereteToken
+} = require('../modules/jwt')
 const Sequelize = require('sequelize');
 const moment = require('moment')
 const slug = require('slug')
 const path = require('path');
 
-const { LanguageValidation , SubjectValidation, TutorialValidation} = require('../modules/validation')
+const {
+    LanguageValidation,
+    SubjectValidation,
+    TutorialValidation
+} = require('../modules/validation')
 
 module.exports = class AdminController {
-    
+
     static async DashboardController(req, res) {
         const guests = await req.db.guests.findAll({
             raw: true,
         })
-        const todayGuests = await req.db.guests.findAll({
-            raw: true,
-            where: {
-                createdAt: moment(new Date()).subtract(0, 'days').format('MMMM Do YYYY')
+
+
+        let todayDatas = []
+
+        const todayGuests = guests.map(guest => {
+            if(moment(guest.createdAt).format('MMMM Do YYYY') === moment(new Date()).format('MMMM Do YYYY')){
+                todayDatas.push(guest)
             }
         })
-        console.log(moment(new Date()).format('MMMM Do YYYY'));
+
+        console.log(todayDatas);
 
         res.render('admin', {
-            guests: guests.length
+            guests: guests.length,
+            todayGuests: todayDatas.length
         })
 
     }
     static async LoginGetController(req, res) {
-        res.render('login', {
-        })
+        res.render('login', {})
     }
     static async LoginPostController(req, res) {
         const {
@@ -71,11 +83,11 @@ module.exports = class AdminController {
         });
 
 
-       const token = await genereteToken({
+        const token = await genereteToken({
             session_id: session.dataValues.session_id,
         });
 
-        
+
         if (!token) {
             res.render('login', {
                 errorStatus: true,
@@ -83,7 +95,7 @@ module.exports = class AdminController {
             });
             return;
         }
-        
+
         res.cookie('token', token).redirect('/admin')
 
     }
@@ -93,21 +105,23 @@ module.exports = class AdminController {
     // LANGUAGE
 
     static async LanguagesController(req, res, next) {
-        try {   
+        try {
             const limit = req.query.limit || 10;
-			let offset = req.query.offset - 1 || 0;
+            let offset = req.query.offset - 1 || 0;
             const languageCount = await req.db.language.findAll({})
             console.log(offset);
-            const count = Math.ceil(languageCount.length/limit)
+            const count = Math.ceil(languageCount.length / limit)
             if (offset < 0) {
-                offset = 0 
+                offset = 0
             }
 
             const languages = await req.db.language.findAll({
                 raw: true,
                 limit,
                 offset: offset * limit,
-                order: [['updatedAt', 'DESC']]
+                order: [
+                    ['updatedAt', 'DESC']
+                ]
             });
             res.render('languages', {
                 languages,
@@ -130,43 +144,45 @@ module.exports = class AdminController {
             const imgName = req.files.file.name.split(".")
 
             const filename = req.files.file.md5 + '.' + imgName[imgName.length - 1]
-            
+
             const language = await req.db.language.create({
                 language_name: data.language_name,
                 language_slug: slug(data.language_name),
                 language_status: data.status,
                 language_logo: filename
-            }) 
+            })
 
             req.files.file.mv(
                 path.join(__dirname, '..', 'public', 'files', filename),
             )
 
             res.status(201).json({
-				ok: true,
-				message: "Language created successfully",
+                ok: true,
+                message: "Language created successfully",
                 data: {
                     language
                 }
-			});
+            });
         } catch (error) {
             console.log(error);
-           next(error)
+            next(error)
         }
 
     }
     static async LanguagesPutController(req, res, next) {
         try {
-            const { language_name, status, language_id} = req.body
+            const {
+                language_name,
+                status,
+                language_id
+            } = req.body
 
-            const language = await req.db.language.update(
-            {
+            const language = await req.db.language.update({
                 language_name: language_name,
                 language_slug: slug(language_name),
                 language_status: status
-            },
-            {
-                where: { 
+            }, {
+                where: {
                     language_id: language_id
                 }
             })
@@ -176,29 +192,30 @@ module.exports = class AdminController {
                 ok: true,
                 message: "Updated language successfully"
             })
-            
+
         } catch (error) {
             next(error)
         }
     }
     static async LanguagesDeleteController(req, res, next) {
         try {
-            const { language_id} = req.body
+            const {
+                language_id
+            } = req.body
 
             console.log(language_id);
 
-            const language = await req.db.language.destroy(
-            {
+            const language = await req.db.language.destroy({
                 paranoid: true,
-                where: { 
+                where: {
                     language_id: language_id
                 }
             })
 
             res.redirect('/admin/languages')
-            
+
         } catch (error) {
-            
+
             next(error)
         }
     }
@@ -212,9 +229,9 @@ module.exports = class AdminController {
         let offset = req.query.offset - 1 || 0;
         const subjectCount = await req.db.subject.findAll({})
         console.log(offset);
-        const count = Math.ceil(subjectCount.length/limit)
+        const count = Math.ceil(subjectCount.length / limit)
         if (offset < 0) {
-            offset = 0 
+            offset = 0
         }
 
         const languages = await req.db.language.findAll({
@@ -223,10 +240,12 @@ module.exports = class AdminController {
         const subjects = await req.db.subject.findAll({
             raw: true,
             limit,
-            offset: offset * limit, 
-            order: [['updatedAt', 'DESC']]
+            offset: offset * limit,
+            order: [
+                ['updatedAt', 'DESC']
+            ]
         });
-        
+
         res.render('subject', {
             languages,
             subjects,
@@ -243,31 +262,33 @@ module.exports = class AdminController {
                 subject_name: data.subject_name,
                 subject_slug: slug(data.subject_name),
                 language_id: data.language_id
-            }) 
+            })
 
             res.status(201).json({
-				ok: true,
+                ok: true,
                 data: {
                     subject
                 }
-			});
+            });
         } catch (error) {
-           next(error)
+            next(error)
         }
     }
     static async SubjectPutController(req, res, next) {
         try {
             console.log(req.body);
-            const { subject_name, language_id, subject_id} = req.body
+            const {
+                subject_name,
+                language_id,
+                subject_id
+            } = req.body
 
-            const subject = await req.db.subject.update(
-            {
+            const subject = await req.db.subject.update({
                 subject_name: subject_name,
                 subject_slug: slug(subject_name),
                 language_id: language_id.trim()
-            },
-            {
-                where: { 
+            }, {
+                where: {
                     subject_id: subject_id.trim()
                 }
             })
@@ -277,7 +298,7 @@ module.exports = class AdminController {
                 ok: true,
                 message: "Updated subject successfully"
             })
-            
+
         } catch (error) {
             console.log(error);
             next(error)
@@ -285,22 +306,23 @@ module.exports = class AdminController {
     }
     static async SubjectDeleteController(req, res, next) {
         try {
-            const { subject_id } = req.body
+            const {
+                subject_id
+            } = req.body
 
             console.log(subject_id);
 
-            const subject = await req.db.subject.destroy(
-            {
+            const subject = await req.db.subject.destroy({
                 paranoid: true,
-                where: { 
+                where: {
                     subject_id: subject_id.trim()
                 }
             })
 
             res.redirect('/admin/subject')
-            
+
         } catch (error) {
-            
+
             next(error)
         }
     }
@@ -317,9 +339,9 @@ module.exports = class AdminController {
         let offset = req.query.offset - 1 || 0;
         const tutorialCount = await req.db.tutorial.findAll({})
         console.log(offset);
-        const count = Math.ceil(tutorialCount.length/limit)
+        const count = Math.ceil(tutorialCount.length / limit)
         if (offset < 0) {
-            offset = 0 
+            offset = 0
         }
 
 
@@ -333,10 +355,12 @@ module.exports = class AdminController {
             raw: true,
             limit,
             offset: offset * limit,
-            order: [['updatedAt', 'DESC']]
+            order: [
+                ['updatedAt', 'DESC']
+            ]
         });
         res.render('tutorials', {
-            languages, 
+            languages,
             subjects,
             tutorials,
             limit,
@@ -346,17 +370,17 @@ module.exports = class AdminController {
     }
     static async TutorialsPostController(req, res, next) {
         try {
-            
+
             const data = await TutorialValidation(req.body, res.error)
-            
+
             const tutorial = await req.db.tutorial.create({
                 tutorial_name: data.tutorial_name,
                 tutorial_slug: slug(data.tutorial_name),
                 tutorial_content: req.body.tutorial_content,
                 language_id: data.language_id,
                 subject_id: data.subject_id
-            }) 
-    
+            })
+
             res.status(201).json({
                 ok: true,
                 message: "Tutorial created successfully",
@@ -365,25 +389,29 @@ module.exports = class AdminController {
                 }
             });
         } catch (error) {
-            
-         next(error)   
+
+            next(error)
         }
     }
     static async TutorialPutController(req, res, next) {
         try {
             console.log(req.body);
-            const { tutorial_name, language_id, subject_id, tutorial_content, tutorial_id} = req.body
+            const {
+                tutorial_name,
+                language_id,
+                subject_id,
+                tutorial_content,
+                tutorial_id
+            } = req.body
 
-            const tutorial = await req.db.tutorial.update(
-            {
+            const tutorial = await req.db.tutorial.update({
                 tutorial_name: tutorial_name,
                 tutorial_slug: slug(tutorial_name),
                 language_id: language_id.trim(),
                 subject_id: subject_id.trim(),
                 tutorial_content: tutorial_content
-            },
-            {
-                where: { 
+            }, {
+                where: {
                     tutorial_id: tutorial_id.trim()
                 }
             })
@@ -393,7 +421,7 @@ module.exports = class AdminController {
                 ok: true,
                 message: "Updated Tutorial successfully"
             })
-            
+
         } catch (error) {
             console.log(error);
             next(error)
@@ -401,24 +429,25 @@ module.exports = class AdminController {
     }
     static async TutorialDeleteController(req, res, next) {
         try {
-            const { tutorial_id } = req.body
+            const {
+                tutorial_id
+            } = req.body
 
             console.log(tutorial_id);
 
-            const tutorial = await req.db.tutorial.destroy(
-            {
-                where: { 
+            const tutorial = await req.db.tutorial.destroy({
+                where: {
                     tutorial_id: tutorial_id.trim()
                 }
             })
 
             res.redirect('/admin/tutorials')
-            
+
         } catch (error) {
-            
+
             next(error)
         }
-    }  
+    }
     static async TutorialsGetSubjectByLanguageController(req, res, next) {
         try {
             const subject = await req.db.language.findAll({
@@ -426,11 +455,9 @@ module.exports = class AdminController {
                 where: {
                     language_id: req.params.language_id,
                 },
-                include: [
-                    {
-                        model: req.db.subject
-                    }
-                ]
+                include: [{
+                    model: req.db.subject
+                }]
             })
             res.json({
                 ok: true,
@@ -447,26 +474,22 @@ module.exports = class AdminController {
     static async StatisticsController(req, res) {
         const Op = Sequelize.Op;
         const guests = await req.db.guests.findAll({
-            raw: true,
-            where: {
-                createdAt: {
-                  [Op.gte]: moment().subtract(3, 'days').toDate()
-                }
-            }})
+            raw: true
+        })
 
         let data = []
         let labels = []
-        for(let i = 6; i >= 0; i--) {
+        for (let i = 6; i >= 0; i--) {
             labels.push(moment(new Date()).subtract(i, 'days').locale('uz-latn').format('MMMM Do YYYY'))
             let count = 0
             guests.forEach(guest => {
-                if(moment(guest.createdAt).format('MMMM Do YYYY') === moment(new Date()).subtract(i, 'days').format('MMMM Do YYYY')){
-                    count ++
+                if (moment(guest.createdAt).format('MMMM Do YYYY') === moment(new Date()).subtract(i, 'days').format('MMMM Do YYYY')) {
+                    count++
                 }
             });
             data.push(count)
         }
-                
+
         res.status(200).json({
             data,
             labels

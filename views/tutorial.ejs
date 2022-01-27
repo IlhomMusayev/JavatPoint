@@ -1,236 +1,263 @@
-     <!-- Navbar -->
-     <%- include('parts/header')%>
-     <!-- End Navbar -->
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Windmill Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles/css/tailwind.output.css" />
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <script src="/assets/scrypts/js/init-alpine.js"></script>
+  <link rel="stylesheet" href="/assets/styles/css/prism.css">
+  <link rel="stylesheet" href="/assets/styles/sass/main.css">
+
+</head>
+
+<body>
+    <% var languages = languages || [] %> 
+  <div class="shadow-md flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+    <!-- Desktop sidebar -->
+    <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0" >
+      <div class="py-4 text-gray-300 font-medium dark:text-gray-400">
+        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="/">
+          JavatPoint 
+        </a>
+        <nav class="pt-10 flex-1 px-2 space-y-1" style="margin-top: 25px;">
+            <% subjects.forEach(function(subject) {%>
+                <div x-data="{ isExpanded: true }" class="space-y-1">
+                    <button
+                        class="text-gray-50 hover:bg-slate-100 bg-slate-100 hover:text-gray-900 group w-full flex items-center pr-2 py-2 text-sm font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        @click.prevent="isExpanded = !isExpanded" x-bind:aria-expanded="isExpanded"
+                        aria-expanded="true">
+                        <svg :class="{ 'text-gray-400 rotate-90': isExpanded, 'text-gray-900': !isExpanded }"
+                            x-state:on="Expanded" x-state:off="Collapsed"
+                            class="mr-2 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150 text-gray-400 rotate-90"
+                            viewBox="0 0 20 20" aria-hidden="true">
+                            <path d="M6 6L14 10L6 14V6Z" fill="currentColor"></path>
+                        </svg>
+                        <%= subject.subject_name %>
+                    </button>
+                    <div x-show="isExpanded"
+                        x-description="Expandable link section, show/hide based on state."
+                        class="space-y-1">
+                        <% subject.tutorials.forEach(tutorial => { %>
+                        <a href="/<%= subject.language.dataValues.language_slug %>/<%= tutorial.tutorial_slug  %>
+                        "
+                            class="group w-full flex items-center pl-10 pr-2 py-2 text-sm font-medium text-gray-300 font-medium rounded-md hover:text-gray-900 hover:bg-slate-50">
+                            <%= tutorial.tutorial_name  %>
+                        </a>
+                        <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+        </nav>
+      </div>
+    </aside>
+    <!-- Mobile sidebar -->
+    <!-- Backdrop -->
+    <div x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
+      x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"></div>
+    <aside class="shadow-md fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
+      x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
+      x-transition:enter-start="opacity-0 transform -translate-x-20" x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0 transform -translate-x-20" @click.away="closeSideMenu"
+      @keydown.escape="closeSideMenu">
+      <div class="py-4 text-gray-300 font-medium dark:text-gray-400">
+        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="/">
+          JavatPoint
+        </a>
+        <% subjects.forEach(function(subject) {%>
+            <div x-data="{ isExpanded: true }" class="space-y-1">
+                <button
+                    class="text-gray-900  hover:bg-slate-100 bg-slate-50 hover:text-gray-900 group w-full flex items-center pr-2 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    @click.prevent="isExpanded = !isExpanded" x-bind:aria-expanded="isExpanded"
+                    aria-expanded="true">
+                    <svg :class="{ 'text-gray-400 rotate-90': isExpanded, 'text-gray-900': !isExpanded }"
+                        x-state:on="Expanded" x-state:off="Collapsed"
+                        class="mr-2 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150 text-gray-400 rotate-90"
+                        viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M6 6L14 10L6 14V6Z" fill="currentColor"></path>
+                    </svg>
+                    <%= subject.subject_name %>
+                </button>
+                <div x-show="isExpanded"
+                    x-description="Expandable link section, show/hide based on state."
+                    class="space-y-1">
+                    <% subject.tutorials.forEach(tutorial => { %>
+                    <a href="/<%= subject.language.dataValues.language_slug %>/<%= tutorial.tutorial_slug  %>
+                       "
+                        class="group w-full flex items-center pl-10 pr-2 py-2 text-sm font-medium text-gray-300 font-medium rounded-md hover:text-gray-900 hover:bg-slate-50">
+                        <%= tutorial.tutorial_name  %>
+                    </a>
+                    <% }) %>
+                </div>
+            </div>
+            <% }) %>
+      </div>
+    </aside>
+    <div class="flex flex-col flex-1 w-full">
+      <header class="z-10 py-4 bg-white shadow-md dark:shadow-md-white dark:bg-gray-800">
+        <div
+          class="container flex items-center justify-between px-6 mx-auto text-purple-600 dark:text-purple-300">
+          <!-- Mobile hamburger -->
+          <button class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
+            @click="toggleSideMenu" aria-label="Menu">
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </button>
+          <!-- Search input -->
+          <div class="flex space-x-4">
+            <a href="/"
+                class="bg-slate-50 text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+            <a href="#tutorials"
+                class="tutorials_link text-gray-300 font-medium hover:bg-slate-50	 hover:text-slate-900	 px-3 py-2 rounded-md text-sm font-medium">Tutorials</a>
+          </div>
+          <ul class="flex items-center flex-shrink-0 space-x-6">
+            <!-- Theme toggler -->
+            <li class="flex">
+              <button class="rounded-md focus:outline-none focus:shadow-outline-purple" @click="toggleTheme"
+                aria-label="Toggle color mode">
+                <template x-if="!dark">
+                  <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                  </svg>
+                </template>
+                <template x-if="dark">
+                  <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </template>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <main class="flex-1 overflow-y-auto focus:outline-none bg-slate-100 dark:bg-zinc-900 transform shadow-lg " tabindex="0"
+      x-data="" x-init="$el.focus()">
+        <div class="relative max-w-screen-xl mx-auto flayout_menu absolute z-30 inset-x-0 transform shadow-md bg-white dark:bg-gray-800" style="display: none">
+            <nav class="px-4 py-4 bg-white dark:bg-gray-800 sm:py-5 sm:px-6 lg:px-8 xl:pr-12 transform shadow-md "
+                aria-labelledby="solutionsHeading">
+                <div>
+                    <h3 class="text-sm font-medium tracking-wide text-gray-300 font-medium uppercase">
+                        LANGUAGES
+                    </h3>
+                    <ul class="mt-3 flex flex-wrap">
+                        <% languages.forEach(language => { %> 
+                        <li class="">
+                            <a href="/<%= language.language_slug %>/"
+                                class="p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
+                                <i class="fas fa-code dark:text-gray-200"></i>
+                                <span class="ml-4 dark:text-gray-200"><%= language.language_name %></span>
+                            </a>
+                        </li>
+                        <% }) %> 
+                    
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container px-6 mx-auto grid" style="margin-top: 25px;">
+            <div class="pt-6">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+                    <h1 class="text-2xl font-semibold text-gray-900 mb-8 dark:text-gray-200"><%= tutirials[0].tutorial_name %></h1>
+                    <div class="tutorial_content dark:text-gray-200">
+                       <%- tutirials[0].tutorial_content %>
+                    </div>
+                </div>
 
 
-     <!-- SideBar -->
-     <div class="bg-white">
-         <div class="h-screen flex overflow-hidden bg-white " x-data="{ sidebarOpen: false }"
-             @keydown.window.escape="sidebarOpen = false">
-             <div x-show="sidebarOpen" class="md:hidden"
-                 x-description="Off-canvas menu for mobile, show/hide based on off-canvas menu state.">
-                 <div class="fixed inset-0 flex z-40">
-                     <transition enter-active-class="transition-opacity ease-linear duration-300"
-                         enter-class="opacity-0" enter-to-class="opacity-100"
-                         leave-active-class="transition-opacity ease-linear duration-300" leave-class="opacity-100"
-                         leave-to-class="opacity-0">
-                         <div @click="sidebarOpen = false" x-show="sidebarOpen"
-                             x-description="Off-canvas menu overlay, show/hide based on off-canvas menu state."
-                             class="fixed inset-0">
-                             <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
-                         </div>
-                     </transition>
-                     <trans class="w-80" ition enter-active-class="transition ease-in-out duration-300 transform"
-                         enter-class="-translate-x-full" enter-to-class="translate-x-0"
-                         leave-active-class="transition ease-in-out duration-300 transform" leave-class="translate-x-0"
-                         leave-to-class="-translate-x-full">
-                         <div x-show="sidebarOpen"
-                             x-description="Off-canvas menu, show/hide based on off-canvas menu state."
-                             class="relative flex-1 flex flex-col max-w-xs w-full bg-white">
-                             <div class="absolute top-0 right-0 -mr-12 pt-2">
-                                 <button x-show="sidebarOpen" @click="sidebarOpen = false"
-                                     class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                                     <span class="sr-only">Close sidebar</span>
-                                     <svg class="h-6 w-6 text-gray-900" x-description="Heroicon name: outline/x"
-                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke="currentColor" aria-hidden="true">
-                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                             d="M6 18L18 6M6 6l12 12"></path>
-                                     </svg>
-                                 </button>
-                             </div>
-                             <% subjects.forEach(function(subject) {%>
-                             <div class="flex-1 h-screen pt-5 pb-4 overflow-y-auto">
-                                 <nav class="h-screen mt-5 px-2 space-y-1">
-                                     <div x-data="{ isExpanded: true }" class="space-y-1">
-                                         <button
-                                             class="bg-slate-50 text-gray-900 hover:bg-slate-50 hover:text-gray-900 group w-full flex items-center pr-2 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                             @click.prevent="isExpanded = !isExpanded" x-bind:aria-expanded="isExpanded"
-                                             aria-expanded="true">
-                                             <svg :class="{ 'text-gray-400 rotate-90': isExpanded, 'text-gray-900': !isExpanded }"
-                                                 x-state:on="Expanded" x-state:off="Collapsed"
-                                                 class="mr-2 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150 text-gray-400 rotate-90"
-                                                 viewBox="0 0 20 20" aria-hidden="true">
-                                                 <path d="M6 6L14 10L6 14V6Z" fill="currentColor"></path>
-                                             </svg>
-                                             <%= subject.subject_name %>
-                                         </button>
-                                         <div x-show="isExpanded"
-                                             x-description="Expandable link section, show/hide based on state."
-                                             class="space-y-1">
-                                             <% subject.tutorials.forEach(tutorial => { %>
-                                             <a href="/<%= subject.language.dataValues.language_slug %>/<%= tutorial.tutorial_slug  %>
-                                            "
-                                                 class="group w-full flex items-center pl-10 pr-2 py-2 text-sm font-medium text-gray-500 rounded-md hover:text-gray-900 hover:bg-slate-50">
-                                                 <%= tutorial.tutorial_name  %>
-                                             </a>
-                                             <% }) %>
-                                         </div>
-                                     </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-8">
 
-                                 </nav>
-                             </div>
-                             <% }) %>
-                             <div class="flex-shrink-0 flex bg-gray-700 p-4">
+                    <!-- Footer -->
+                    <footer class="bg-gray mt-10">
+                        <div
+                            class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+                            <div class="flex justify-center space-x-6 md:order-2">
 
-                             </div>
-                         </div>
-                     </trans>
-                     <div class="flex-shrink-0 w-14">
-                         <!-- Force sidebar to shrink to fit close icon -->
-                     </div>
-                 </div>
-             </div>
+                                <a href="#" class="text-gray-400 hover:text-gray-300 font-medium">
+                                    <span class="sr-only">Facebook</span>
+                                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
 
-             <!-- Static sidebar for desktop -->
-             <div class="hidden md:flex md:flex-shrink-0 border-r-2 ">
-                 <div class="flex flex-col w-64">
-                     <!-- Sidebar component, swap this element with another sidebar if you like -->
-                     <div class="flex flex-col h-0 flex-1 bg-white">
-                         <div class="flex-1 flex flex-col overflow-y-auto">
-                             <nav class="mt-5 flex-1 px-2 bg-white space-y-1">
-                                 <% subjects.forEach(function(subject) {%>
-                                 <div x-data="{ isExpanded: true }" class="space-y-1">
-                                     <button
-                                         class="text-gray-900 hover:bg-slate-50 bg-slate-50 hover:text-gray-900 group w-full flex items-center pr-2 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                         @click.prevent="isExpanded = !isExpanded" x-bind:aria-expanded="isExpanded"
-                                         aria-expanded="true">
-                                         <svg :class="{ 'text-gray-400 rotate-90': isExpanded, 'text-gray-900': !isExpanded }"
-                                             x-state:on="Expanded" x-state:off="Collapsed"
-                                             class="mr-2 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150 text-gray-400 rotate-90"
-                                             viewBox="0 0 20 20" aria-hidden="true">
-                                             <path d="M6 6L14 10L6 14V6Z" fill="currentColor"></path>
-                                         </svg>
-                                         <%= subject.subject_name %>
-                                     </button>
-                                     <div x-show="isExpanded"
-                                         x-description="Expandable link section, show/hide based on state."
-                                         class="space-y-1">
-                                         <% subject.tutorials.forEach(tutorial => { %>
-                                         <a href="/<%= subject.language.dataValues.language_slug %>/<%= tutorial.tutorial_slug  %>
-                                            "
-                                             class="group w-full flex items-center pl-10 pr-2 py-2 text-sm font-medium text-gray-500 rounded-md hover:text-gray-900 hover:bg-slate-50">
-                                             <%= tutorial.tutorial_name  %>
-                                         </a>
-                                         <% }) %>
-                                     </div>
-                                 </div>
-                                 <% }) %>
-                             </nav>
-                         </div>
+                                <a href="#" class="text-gray-400 hover:text-gray-300 font-medium">
+                                    <span class="sr-only">Instagram</span>
+                                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
 
-                     </div>
-                 </div>
-             </div>
+                                <a href="#" class="text-gray-400 hover:text-gray-300 font-medium">
+                                    <span class="sr-only">Twitter</span>
+                                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path
+                                            d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84">
+                                        </path>
+                                    </svg>
+                                </a>
 
-             <div class="flex flex-col w-0 flex-1 overflow-hidden">
-                 <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
-                     <button @click.stop="sidebarOpen = true"
-                         class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                         <span class="sr-only">Open sidebar</span>
-                         <svg class="h-6 w-6" x-description="Heroicon name: outline/menu"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                             aria-hidden="true">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                 d="M4 6h16M4 12h16M4 18h16"></path>
-                         </svg>
-                     </button>
-                 </div>
-                 <main class="flex-1 overflow-y-auto focus:outline-none bg-slate-100" tabindex="0"
-                     x-data="" x-init="$el.focus()">
-                     <div class="pt-6">
-                         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-                             <h1 class="text-2x font-semibold text-gray-900 mb-8"><%= tutirials[0].tutorial_name %></h1>
-                             <div class="tutorial_content">
-                                <%- tutirials[0].tutorial_content %>
-                             </div>
-                         </div>
+                                <a href="#" class="text-gray-400 hover:text-gray-300 font-medium">
+                                    <span class="sr-only">GitHub</span>
+                                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
+
+                                <a href="#" class="text-gray-400 hover:text-gray-300 font-medium">
+                                    <span class="sr-only">Dribbble</span>
+                                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
+
+                            </div>
+                            <div class="mt-2 md:mt-0 md:order-1">
+                                <p class="text-center text-base text-gray-400">
+                                    © 2020 Workflow, Inc. All rights reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- End Footer -->
+                </div>
+            </div>
+        </div>
+      </main>
+    </div>
+  </div>
 
 
-                         <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+  
+  <script src="/assets/scrypts/js/flyout.js"></script>
+  <script src="/assets/scrypts/js/main.js"></script>
+  <script src="/assets/scrypts/js/prism.js"></script>
+  <script src="/assets/scrypts/js/copycode.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/skins/ui/oxide-dark/content.min.css"></script>
+  <script src="/assets/scrypts/fontawesome-free-5.15.4-web/js/all.js"></script>
+</body>
 
-                             <!-- Footer -->
-                             <footer class="bg-gray mt-10">
-                                 <div
-                                     class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
-                                     <div class="flex justify-center space-x-6 md:order-2">
-
-                                         <a href="#" class="text-gray-400 hover:text-gray-500">
-                                             <span class="sr-only">Facebook</span>
-                                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
-                                                 aria-hidden="true">
-                                                 <path fill-rule="evenodd"
-                                                     d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                                                     clip-rule="evenodd"></path>
-                                             </svg>
-                                         </a>
-
-                                         <a href="#" class="text-gray-400 hover:text-gray-500">
-                                             <span class="sr-only">Instagram</span>
-                                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
-                                                 aria-hidden="true">
-                                                 <path fill-rule="evenodd"
-                                                     d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
-                                                     clip-rule="evenodd"></path>
-                                             </svg>
-                                         </a>
-
-                                         <a href="#" class="text-gray-400 hover:text-gray-500">
-                                             <span class="sr-only">Twitter</span>
-                                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
-                                                 aria-hidden="true">
-                                                 <path
-                                                     d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84">
-                                                 </path>
-                                             </svg>
-                                         </a>
-
-                                         <a href="#" class="text-gray-400 hover:text-gray-500">
-                                             <span class="sr-only">GitHub</span>
-                                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
-                                                 aria-hidden="true">
-                                                 <path fill-rule="evenodd"
-                                                     d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                                                     clip-rule="evenodd"></path>
-                                             </svg>
-                                         </a>
-
-                                         <a href="#" class="text-gray-400 hover:text-gray-500">
-                                             <span class="sr-only">Dribbble</span>
-                                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"
-                                                 aria-hidden="true">
-                                                 <path fill-rule="evenodd"
-                                                     d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
-                                                     clip-rule="evenodd"></path>
-                                             </svg>
-                                         </a>
-
-                                     </div>
-                                     <div class="mt-8 md:mt-0 md:order-1">
-                                         <p class="text-center text-base text-gray-400">
-                                             © 2020 Workflow, Inc. All rights reserved.
-                                         </p>
-                                     </div>
-                                 </div>
-                             </footer>
-                             <!-- End Footer -->
-                         </div>
-                     </div>
-                 </main>
-             </div>
-         </div>
-
-     </div>
-     
-
-
-     <!-- SideBar End -->
-     <script src="/assets/scrypts/js/flyout.js"></script>
-     <script src="/assets/scrypts/js/prism.js"></script>
-     <script src="/assets/scrypts/js/copycode.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/skins/ui/oxide-dark/content.min.css"></script>
-     <script src="/assets/scrypts/fontawesome-free-5.15.4-web/js/all.js"></script>
-
-     </body>
-
-     </html>
+</html>

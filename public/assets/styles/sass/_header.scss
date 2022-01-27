@@ -1,4 +1,4 @@
-header{
+.header{
     display: flex;
     justify-content:center;
     align-items:center;
@@ -72,7 +72,7 @@ header{
 }
 
 @media (max-width: 760px) {
-    header{
+    .header{
         height: 80vh;
         .header__section{
             &__title{

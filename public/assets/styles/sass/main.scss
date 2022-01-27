@@ -73,10 +73,44 @@ body{
     }
   }
 
+  .tutorial_content{
+    p, ul, li{
+      padding: 5px 0;
+    }
+    hr{
+      margin: 30px 0;
+    }
+    .h1{
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    .h2{
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    .h3{
+      font-size: 1.17em;
+      margin-bottom: 10px;
+    }
+    .h4{
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+    .h5{
+      font-size: 0.83em;
+      margin-bottom: 10px;
+    }
+    .h6{
+      font-size: 0.67em;
+      margin-bottom: 10px;
+    }
+  }
+
 
   pre{  
     position: relative;
     border-radius: 10px;
+    border: 1px solid rgb(134, 134, 134);
   }
   .copy_btn{
     position: absolute;
@@ -109,3 +143,4 @@ body{
     color: #000;
     font-weight: bold;
   }
+  

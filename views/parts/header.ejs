@@ -18,7 +18,7 @@
 
     <% var languages = languages || [] %> 
     <!-- Navbar -->
-    <div class="bg-gray-100 transform shadow-lg z-50">
+    <div class="bg-gray-100 transform shadow-lg">
 
         <nav x-data="{ open: false }" class="bg-white border-b-2">
             <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
@@ -85,7 +85,7 @@
 
 
         <div x-show="open" x-description=" Flyout menu, show/hide based on flyout menu state."
-            class="flayout_menu absolute z-10 inset-x-0 transform shadow-lg" x-ref="panel" @click.away="open = false" style="display: none">
+            class="flayout_menu absolute z-30 inset-x-0 transform shadow-lg" x-ref="panel" @click.away="open = false" style="display: none">
             <div class="absolute inset-0 flex" aria-hidden="true">
                 <div class="bg-white w-1/2"></div>
                 <div class="bg-gray-50 w-1/2"></div>

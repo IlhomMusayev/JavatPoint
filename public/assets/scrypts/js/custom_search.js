@@ -18,14 +18,14 @@ function convertToSlug(Text) {
                .replace(/ /g, '-')
                .replace(/[^\w-]+/g, '');
 }
-
-
 searchInputElement.addEventListener('input', (e) => {
+    const searchBtnElement = document.querySelector('.header__section__search__button')
     let inputDropdownElement = document.createElement('div')
     inputDropdownElement.classList.add('input__dropdown')
     searchInputElement.style = "border-radius: 30px 30px 0 0"
-    data.forEach(item => {
+    searchBtnElement.style =  "border-radius: 30px 30px 0 30px"
 
+    data.forEach(item => {
         if(item.tutorial_name.toLowerCase().includes(searchInputElement.value.toLowerCase())){
             const inputDropdownItemElement = document.createElement('div')
             inputDropdownItemElement.classList.add('input__dropdown__item')
@@ -43,5 +43,6 @@ searchInputElement.addEventListener('input', (e) => {
             item.remove()
         })
         searchInputElement.style = "border-radius: 30px"
+        searchBtnElement.style =  "border-radius: 30px"
     }
 })

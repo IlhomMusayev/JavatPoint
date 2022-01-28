@@ -359,6 +359,8 @@ module.exports = class AdminController {
                 ['updatedAt', 'DESC']
             ]
         });
+
+        console.log(tutorials);
         res.render('tutorials', {
             languages,
             subjects,

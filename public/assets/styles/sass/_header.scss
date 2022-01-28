@@ -76,12 +76,12 @@
         height: 80vh;
         .header__section{
             &__title{
-                font-size: 40px;
+                font-size: 35px;
                 font-weight: 600;
             }
             &__poragrph{
                 font-size: 18px;
-                font-weight: 600;
+                font-weight: 500;
             }
             &__search{
                 position: relative;
@@ -90,9 +90,9 @@
                     padding: 15px 130px 15px 30px;
                     border-radius: 30px;
                     border: none;
-                    width: 80%;
-                    font-size: 18px;
-                    font-weight: 600;
+                    width: 90%;
+                    font-size: 16px;
+                    font-weight: 500;
                     outline: none;
                     color: #000;
                 }
@@ -101,7 +101,7 @@
                     left: 50%;                    
                     padding: 8px;
                     transform: translate(-50%);
-                    width: 80%;
+                    width: 90%;
                     background-color: #fff;
                     &__item{
                         padding: 8px;
@@ -119,9 +119,9 @@
                 }
                 &__button{
                     position: absolute;
-                    right: 8%;
+                    right: 6%;
                     top: 50%;
-                    transform: translate(-15%, -50%);
+                    transform: translate(-0%, -50%);
                     padding: 13px 40px;
                     border-radius: 30px;
                     border: none;

@@ -10,7 +10,7 @@ languageSelect.forEach(select =>{
 
     response = await response.json()
 
-    console.log(response);
+     (response);
 
     let subject = ""
     response.subject.forEach(item => {

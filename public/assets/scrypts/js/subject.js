@@ -1,5 +1,5 @@
 async function createLanguage() {
-    console.log('slaom');
+     ('slaom');
     const subjectListElement =  document.querySelector('.languages__list')
     const subjectForm = document.querySelector('.subject__form')
     subjectForm.addEventListener('submit', async (e) => {
@@ -17,7 +17,7 @@ async function createLanguage() {
 
         let response = await fetch('/admin/subject', option)
         response = await response.json();
-        console.log(response);
+         (response);
         if (!response.ok) {
             const errorElement = document.querySelector('.error')
             let error = `   <div class="rounded-md bg-red-50 p-4">

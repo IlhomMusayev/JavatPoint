@@ -58,21 +58,5 @@ function data() {
       this.isModalOpen = false
       this.trapCleanup()
     }, 
-
-      // Modal1
-      // isModalOpen1: false,
-      // trapCleanup1: null,
-      // openModal1() {
-      //   this.isModalOpen1 = true
-      //   this.trapCleanup1 = focusTrap(document.querySelector('#modal1'))
-
-      //   const modalElement = document.querySelector('#modal1')
-        
-      //   console.log("salom");
-      // },
-      // closeModal1() {
-      //   this.isModalOpen1 = false
-      //   this.trapCleanup1()
-      // },
   }
 }

@@ -7,7 +7,7 @@ const subject_name = document.querySelector('.subject_name_input')
 editBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
         modalElement.style.display = 'block'
-        console.log(btn.dataset.id);
+         (btn.dataset.id);
         const subject_id = document.querySelector('.update_subject_id_input')
         const subject_name_table = btn.parentNode.parentNode.parentNode.querySelector('.subject_name').textContent
         subject_name.value = subject_name_table
@@ -28,7 +28,7 @@ editBtns.forEach(btn => {
             })
 
             response = await response.json();
-            console.log(response);
+             (response);
             if (!response.ok) {
                 const errorElement = document.querySelector('.error_update')
                 let error = `   <div class="rounded-md bg-red-50 p-4">
@@ -47,7 +47,7 @@ editBtns.forEach(btn => {
               </div>`
               errorElement.innerHTML = error
             }else{
-                console.log("salom");
+                 ("salom");
                 window.location.reload();
             }
         })

@@ -109,7 +109,6 @@ module.exports = class AdminController {
             const limit = req.query.limit || 10;
             let offset = req.query.offset - 1 || 0;
             const languageCount = await req.db.language.findAll({})
-            console.log(offset);
             const count = Math.ceil(languageCount.length / limit)
             if (offset < 0) {
                 offset = 0
@@ -130,16 +129,12 @@ module.exports = class AdminController {
                 count
             })
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
     static async LanguagesPostController(req, res, next) {
         try {
             const data = await LanguageValidation(req.body, res.error)
-
-            console.log(req.files.file);
-
 
             const imgName = req.files.file.name.split(".")
 
@@ -164,7 +159,6 @@ module.exports = class AdminController {
                 }
             });
         } catch (error) {
-            console.log(error);
             next(error)
         }
 
@@ -203,7 +197,6 @@ module.exports = class AdminController {
                 language_id
             } = req.body
 
-            console.log(language_id);
 
             const language = await req.db.language.destroy({
                 paranoid: true,
@@ -228,7 +221,6 @@ module.exports = class AdminController {
         const limit = req.query.limit || 10;
         let offset = req.query.offset - 1 || 0;
         const subjectCount = await req.db.subject.findAll({})
-        console.log(offset);
         const count = Math.ceil(subjectCount.length / limit)
         if (offset < 0) {
             offset = 0
@@ -276,7 +268,6 @@ module.exports = class AdminController {
     }
     static async SubjectPutController(req, res, next) {
         try {
-            console.log(req.body);
             const {
                 subject_name,
                 language_id,
@@ -300,7 +291,6 @@ module.exports = class AdminController {
             })
 
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -310,7 +300,6 @@ module.exports = class AdminController {
                 subject_id
             } = req.body
 
-            console.log(subject_id);
 
             const subject = await req.db.subject.destroy({
                 paranoid: true,
@@ -338,7 +327,6 @@ module.exports = class AdminController {
         const limit = req.query.limit || 10;
         let offset = req.query.offset - 1 || 0;
         const tutorialCount = await req.db.tutorial.findAll({})
-        console.log(offset);
         const count = Math.ceil(tutorialCount.length / limit)
         if (offset < 0) {
             offset = 0
@@ -360,7 +348,6 @@ module.exports = class AdminController {
             ]
         });
 
-        console.log(tutorials);
         res.render('tutorials', {
             languages,
             subjects,
@@ -397,7 +384,6 @@ module.exports = class AdminController {
     }
     static async TutorialPutController(req, res, next) {
         try {
-            console.log(req.body);
             const {
                 tutorial_name,
                 language_id,
@@ -425,7 +411,6 @@ module.exports = class AdminController {
             })
 
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }
@@ -434,8 +419,6 @@ module.exports = class AdminController {
             const {
                 tutorial_id
             } = req.body
-
-            console.log(tutorial_id);
 
             const tutorial = await req.db.tutorial.destroy({
                 where: {

@@ -3,7 +3,7 @@ async function createLanguage() {
     const languageForm = document.querySelector('.language__form')
     languageForm.addEventListener('submit', async (e) => {
         e.preventDefault()
-        console.log(languageForm.file_name.files[0]);
+         (languageForm.file_name.files[0]);
         const formData = new FormData()
 
         formData.append("language_name", languageForm.language_name.value)
@@ -17,7 +17,7 @@ async function createLanguage() {
 
         let response = await fetch('/admin/languages', option)
         response = await response.json();
-        console.log(response);
+         (response);
         if (!response.ok) {
             const errorElement = document.querySelector('.error')
             let error = `   <div class="rounded-md bg-red-50 p-4">

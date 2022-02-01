@@ -8,12 +8,9 @@ const tutorial_content = document.querySelector('.tutorial_content_update')
 editBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
         modalElement.style.display = 'block'
-        console.log(btn.dataset.id);
         const tutorial_id = document.querySelector('.update_tutorial_id_input')
         const tutorial_name_table = btn.parentNode.parentNode.parentNode.querySelector('.tutorial_name').textContent
         const tutorial_content_table = btn.parentNode.parentNode.parentNode.querySelector('.tutorial_content').textContent
-
-        console.log(tutorial_content_table);
 
         tutorial_name.value = tutorial_name_table
         tinymce.get("myTextarea1").setContent(tutorial_content_table)
@@ -36,7 +33,6 @@ editBtns.forEach(btn => {
             })
 
             response = await response.json();
-            console.log(response);
             if (!response.ok) {
                 const errorElement = document.querySelector('.error_update')
                 let error = `   <div class="rounded-md bg-red-50 p-4">
@@ -55,7 +51,6 @@ editBtns.forEach(btn => {
               </div>`
               errorElement.innerHTML = error
             }else{
-                console.log("salom");
                 window.location.reload();
             }
         })

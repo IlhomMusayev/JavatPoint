@@ -105,7 +105,6 @@ module.exports = class TutorialController {
                 languages
             })
         } catch (error) {
-            console.log(error);
             next(error)
         }
     }

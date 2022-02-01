@@ -7,7 +7,7 @@ const language_name = document.querySelector('.language_name_input')
 editBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
         modalElement.style.display = 'block'
-        console.log(btn.dataset.id);
+         (btn.dataset.id);
         const language_id = document.querySelector('.update_language_id_input')
         const language_name_table = btn.parentNode.parentNode.parentNode.querySelector('.language_name').textContent
         language_name.value = language_name_table
@@ -16,7 +16,7 @@ editBtns.forEach(btn => {
         
         const languageUpdateFormElement = document.querySelector('.language__update__form')
         languageUpdateFormElement.addEventListener('submit', async (e) => {
-            console.log(languageUpdateFormElement.language_id.value);
+             (languageUpdateFormElement.language_id.value);
             e.preventDefault()
             let response = await fetch('/admin/languages', {
                 method: 'PUT',
@@ -29,7 +29,7 @@ editBtns.forEach(btn => {
             })
 
             response = await response.json();
-            console.log(response);
+             (response);
             if (!response.ok) {
                 const errorElement = document.querySelector('.error_update')
                 let error = `   <div class="rounded-md bg-red-50 p-4">
@@ -48,7 +48,7 @@ editBtns.forEach(btn => {
               </div>`
               errorElement.innerHTML = error
             }else{
-                console.log("salom");
+                 ("salom");
                 window.location.reload();
             }
         })

@@ -7,7 +7,7 @@ const {
 const Sequelize = require('sequelize');
 const moment = require('moment')
 const slug = require('slug')
-const path = require('path');
+const path = require('path');   
 
 const {
     LanguageValidation,
